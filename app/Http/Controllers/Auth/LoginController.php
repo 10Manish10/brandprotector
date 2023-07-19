@@ -40,11 +40,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated(Request $request, $user)
+    public function redirectTo()
     {
-        if ($user->two_factor) {
-            $user->generateTwoFactorCode();
-            $user->notify(new TwoFactorCodeNotification());
+        if (auth()->user()->is_admin) {
+            return '/admin';
         }
+
+        return '/home';
     }
+
+protected function authenticated(Request $request, $user)
+{
+    if ($user->two_factor) {
+        $user->generateTwoFactorCode();
+        $user->notify(new TwoFactorCodeNotification());
+    }
+}
 }
