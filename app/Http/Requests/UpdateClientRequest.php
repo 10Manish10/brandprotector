@@ -62,6 +62,13 @@ class UpdateClientRequest extends FormRequest
                 'required',
                 'unique:clients,company_name,' . request()->route('client')->id,
             ],
+            'document_proof' => [
+                'array',
+                'required',
+            ],
+            'document_proof.*' => [
+                'required',
+            ],
         ];
     }
 }
