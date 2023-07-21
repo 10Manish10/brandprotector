@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Auditable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,12 +13,13 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Client extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory;
+    use SoftDeletes, InteractsWithMedia, Auditable, HasFactory;
 
     public $table = 'clients';
 
     protected $appends = [
         'logo',
+        'document_proof',
     ];
 
     protected $dates = [
@@ -71,5 +73,10 @@ class Client extends Model implements HasMedia
     public function channels()
     {
         return $this->belongsToMany(Channel::class);
+    }
+
+    public function getDocumentProofAttribute()
+    {
+        return $this->getMedia('document_proof');
     }
 }

@@ -13,20 +13,84 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class ClientsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('client_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $clients = Client::with(['channels', 'media'])->get();
+        if ($request->ajax()) {
+            $query = Client::with(['channels'])->select(sprintf('%s.*', (new Client)->table));
+            $table = Datatables::of($query);
+
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'client_show';
+                $editGate      = 'client_edit';
+                $deleteGate    = 'client_delete';
+                $crudRoutePart = 'clients';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('email', function ($row) {
+                return $row->email ? $row->email : '';
+            });
+            $table->editColumn('logo', function ($row) {
+                if ($photo = $row->logo) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
+                }
+
+                return '';
+            });
+            $table->editColumn('brand_name', function ($row) {
+                return $row->brand_name ? $row->brand_name : '';
+            });
+            $table->editColumn('company_name', function ($row) {
+                return $row->company_name ? $row->company_name : '';
+            });
+            $table->editColumn('document_proof', function ($row) {
+                if (! $row->document_proof) {
+                    return '';
+                }
+                $links = [];
+                foreach ($row->document_proof as $media) {
+                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank">' . trans('global.downloadFile') . '</a>';
+                }
+
+                return implode(', ', $links);
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'logo', 'document_proof']);
+
+            return $table->make(true);
+        }
 
         $channels = Channel::get();
 
-        return view('admin.clients.index', compact('channels', 'clients'));
+        return view('admin.clients.index', compact('channels'));
     }
 
     public function create()
@@ -44,6 +108,10 @@ class ClientsController extends Controller
         $client->channels()->sync($request->input('channels', []));
         if ($request->input('logo', false)) {
             $client->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
+        }
+
+        foreach ($request->input('document_proof', []) as $file) {
+            $client->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('document_proof');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -77,6 +145,20 @@ class ClientsController extends Controller
             }
         } elseif ($client->logo) {
             $client->logo->delete();
+        }
+
+        if (count($client->document_proof) > 0) {
+            foreach ($client->document_proof as $media) {
+                if (! in_array($media->file_name, $request->input('document_proof', []))) {
+                    $media->delete();
+                }
+            }
+        }
+        $media = $client->document_proof->pluck('file_name')->toArray();
+        foreach ($request->input('document_proof', []) as $file) {
+            if (count($media) === 0 || ! in_array($file, $media)) {
+                $client->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('document_proof');
+            }
         }
 
         return redirect()->route('admin.clients.index');

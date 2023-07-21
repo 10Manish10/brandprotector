@@ -62,6 +62,13 @@ class StoreClientRequest extends FormRequest
                 'required',
                 'unique:clients',
             ],
+            'document_proof' => [
+                'array',
+                'required',
+            ],
+            'document_proof.*' => [
+                'required',
+            ],
         ];
     }
 }
