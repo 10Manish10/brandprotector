@@ -53,16 +53,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.client.fields.channels') }}
-                        </th>
-                        <td>
-                            @foreach($client->channels as $key => $channels)
-                                <span class="label label-info">{{ $channels->channel_name }}</span>
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.client.fields.keywords') }}
                         </th>
                         <td>

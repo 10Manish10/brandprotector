@@ -36,22 +36,6 @@
                 <span class="help-block">{{ trans('cruds.client.fields.logo_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="channels">{{ trans('cruds.client.fields.channels') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                </div>
-                <select class="form-control select2 {{ $errors->has('channels') ? 'is-invalid' : '' }}" name="channels[]" id="channels" multiple required>
-                    @foreach($channels as $id => $channel)
-                        <option value="{{ $id }}" {{ (in_array($id, old('channels', [])) || $client->channels->contains($id)) ? 'selected' : '' }}>{{ $channel }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('channels'))
-                    <span class="text-danger">{{ $errors->first('channels') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.client.fields.channels_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="keywords">{{ trans('cruds.client.fields.keywords') }}</label>
                 <textarea class="form-control ckeditor {{ $errors->has('keywords') ? 'is-invalid' : '' }}" name="keywords" id="keywords">{!! old('keywords', $client->keywords) !!}</textarea>
                 @if($errors->has('keywords'))
