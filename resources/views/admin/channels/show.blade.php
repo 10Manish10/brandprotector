@@ -33,6 +33,23 @@
                     </tr>
                     <tr>
                         <th>
+                            Channel Variables
+                        </th>
+                        <td>
+                            <ul style="margin:0;">
+                                @php
+                                    $vars = unserialize($channel->variables);
+                                @endphp
+                                @foreach ($vars as $var)
+                                <li>
+                                    <b>Name:</b> {{ $var['name'] }} | <b>Type:</b> {{ $var['datatype'] }}
+                                </li>
+                                @endforeach
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.channel.fields.subscription_plan') }}
                         </th>
                         <td>
