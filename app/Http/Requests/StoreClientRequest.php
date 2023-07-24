@@ -30,13 +30,6 @@ class StoreClientRequest extends FormRequest
             'logo' => [
                 'required',
             ],
-            'channels.*' => [
-                'integer',
-            ],
-            'channels' => [
-                'required',
-                'array',
-            ],
             'keywords' => [
                 'required',
             ],

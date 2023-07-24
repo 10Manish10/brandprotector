@@ -69,22 +69,6 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.relatedData') }}
-    </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#channels_clients" role="tab" data-toggle="tab">
-                {{ trans('cruds.client.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="channels_clients">
-            @includeIf('admin.channels.relationships.channelsClients', ['clients' => $channel->channelsClients])
-        </div>
-    </div>
-</div>
+
 
 @endsection

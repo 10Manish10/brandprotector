@@ -7,7 +7,6 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyClientRequest;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
-use App\Models\Channel;
 use App\Models\Client;
 use Gate;
 use Illuminate\Http\Request;
@@ -24,7 +23,7 @@ class ClientsController extends Controller
         abort_if(Gate::denies('client_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Client::with(['channels'])->select(sprintf('%s.*', (new Client)->table));
+            $query = Client::query()->select(sprintf('%s.*', (new Client)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -88,24 +87,20 @@ class ClientsController extends Controller
             return $table->make(true);
         }
 
-        $channels = Channel::get();
-
-        return view('admin.clients.index', compact('channels'));
+        return view('admin.clients.index');
     }
 
     public function create()
     {
         abort_if(Gate::denies('client_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $channels = Channel::pluck('channel_name', 'id');
-
-        return view('admin.clients.create', compact('channels'));
+        return view('admin.clients.create');
     }
 
     public function store(StoreClientRequest $request)
     {
         $client = Client::create($request->all());
-        $client->channels()->sync($request->input('channels', []));
+
         if ($request->input('logo', false)) {
             $client->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
         }
@@ -125,17 +120,13 @@ class ClientsController extends Controller
     {
         abort_if(Gate::denies('client_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $channels = Channel::pluck('channel_name', 'id');
-
-        $client->load('channels');
-
-        return view('admin.clients.edit', compact('channels', 'client'));
+        return view('admin.clients.edit', compact('client'));
     }
 
     public function update(UpdateClientRequest $request, Client $client)
     {
         $client->update($request->all());
-        $client->channels()->sync($request->input('channels', []));
+
         if ($request->input('logo', false)) {
             if (! $client->logo || $request->input('logo') !== $client->logo->file_name) {
                 if ($client->logo) {
@@ -168,7 +159,7 @@ class ClientsController extends Controller
     {
         abort_if(Gate::denies('client_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $client->load('channels', 'clientsEmailTemplates');
+        $client->load('clientsEmailTemplates');
 
         return view('admin.clients.show', compact('client'));
     }

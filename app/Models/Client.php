@@ -70,11 +70,6 @@ class Client extends Model implements HasMedia
         return $file;
     }
 
-    public function channels()
-    {
-        return $this->belongsToMany(Channel::class);
-    }
-
     public function getDocumentProofAttribute()
     {
         return $this->getMedia('document_proof');
