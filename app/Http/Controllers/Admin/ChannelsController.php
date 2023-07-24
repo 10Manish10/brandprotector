@@ -106,7 +106,7 @@ class ChannelsController extends Controller
     {
         abort_if(Gate::denies('channel_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $channel->load('subscription_plans', 'channelsClients');
+        $channel->load('subscription_plans');
 
         return view('admin.channels.show', compact('channel'));
     }
