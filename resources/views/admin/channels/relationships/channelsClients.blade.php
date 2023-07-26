@@ -40,6 +40,9 @@
                                 {{ trans('cruds.client.fields.company_name') }}
                             </th>
                             <th>
+                                {{ trans('cruds.client.fields.document_proof') }}
+                            </th>
+                            <th>
                                 &nbsp;
                             </th>
                         </tr>
@@ -71,6 +74,13 @@
                                 </td>
                                 <td>
                                     {{ $client->company_name ?? '' }}
+                                </td>
+                                <td>
+                                    @foreach($client->document_proof as $key => $media)
+                                        <a href="{{ $media->getUrl() }}" target="_blank">
+                                            {{ trans('global.view_file') }}
+                                        </a>
+                                    @endforeach
                                 </td>
                                 <td>
                                     @can('client_show')

@@ -31,6 +31,10 @@ class ClientsApiController extends Controller
             $client->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
         }
 
+        foreach ($request->input('document_proof', []) as $file) {
+            $client->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('document_proof');
+        }
+
         return (new ClientResource($client))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
@@ -56,6 +60,20 @@ class ClientsApiController extends Controller
             }
         } elseif ($client->logo) {
             $client->logo->delete();
+        }
+
+        if (count($client->document_proof) > 0) {
+            foreach ($client->document_proof as $media) {
+                if (! in_array($media->file_name, $request->input('document_proof', []))) {
+                    $media->delete();
+                }
+            }
+        }
+        $media = $client->document_proof->pluck('file_name')->toArray();
+        foreach ($request->input('document_proof', []) as $file) {
+            if (count($media) === 0 || ! in_array($file, $media)) {
+                $client->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('document_proof');
+            }
         }
 
         return (new ClientResource($client))
