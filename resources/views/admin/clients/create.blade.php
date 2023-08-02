@@ -1,6 +1,21 @@
 @extends('layouts.admin')
 @section('content')
-
+<style>
+    .currentform:not(.loading) .loader {
+        display: none !important;
+    }
+    .currentform.loading .loader {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left:50%;
+        transform:translate(-50%, -50%);
+        z-index: 99999;
+    }
+    .currentform.loading {
+        opacity: 0.5;
+    }
+</style>
 <div class="card">
     <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.client.title_singular') }}
@@ -33,22 +48,6 @@
                     <span class="text-danger">{{ $errors->first('logo') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.client.fields.logo_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="channels">{{ trans('cruds.client.fields.channels') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                </div>
-                <select class="form-control select2 {{ $errors->has('channels') ? 'is-invalid' : '' }}" name="channels[]" id="channels" multiple required>
-                    @foreach($channels as $id => $channel)
-                        <option value="{{ $id }}" {{ in_array($id, old('channels', [])) ? 'selected' : '' }}>{{ $channel }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('channels'))
-                    <span class="text-danger">{{ $errors->first('channels') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.client.fields.channels_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="keywords">{{ trans('cruds.client.fields.keywords') }}</label>

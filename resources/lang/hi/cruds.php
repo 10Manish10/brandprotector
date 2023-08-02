@@ -113,8 +113,6 @@ return [
             'email_helper'           => ' ',
             'logo'                   => 'Client Logo',
             'logo_helper'            => ' ',
-            'channels'               => 'Channels',
-            'channels_helper'        => ' ',
             'keywords'               => 'Keywords',
             'keywords_helper'        => 'Enter keywords Separated by comma',
             'website'                => 'Official Website',

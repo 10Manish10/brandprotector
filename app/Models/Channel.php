@@ -22,6 +22,7 @@ class Channel extends Model
 
     protected $fillable = [
         'channel_name',
+        'variables',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -30,11 +31,6 @@ class Channel extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-    }
-
-    public function channelsClients()
-    {
-        return $this->belongsToMany(Client::class);
     }
 
     public function subscription_plans()
