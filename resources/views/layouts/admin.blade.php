@@ -49,6 +49,19 @@
                 </ul>
             @endif
 
+            <div class="navbar-nav" style="margin-right: 10px;">
+              <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="border-radius:5px;overflow:hidden;box-shadow: 0 1px 3px rgb(23 23 23 / 24%);">
+                <input class="btn-check" id="btn-light-theme" type="radio" name="theme-switch" autocomplete="off" value="light" onchange="handleThemeChange(this)">
+                <label class="btn btn-secondary btn-light-toggle" for="btn-light-theme" style="margin:0;" title="Light Theme">
+                  <i class="fas fa-sun"></i>
+                </label>
+                <input class="btn-check" id="btn-dark-mode" type="radio" name="theme-switch" autocomplete="off" value="dark" onchange="handleThemeChange(this)">
+                <label class="btn btn-dark" for="btn-dark-mode" style="margin:0;" title="Dark Theme">
+                  <i class="fas fa-moon"></i>
+                </label>
+              </div>
+            </div>
+
         </nav>
 
         @include('partials.menu')
@@ -86,6 +99,49 @@
             {{ csrf_field() }}
         </form>
     </div>
+    <script>
+      function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return false;
+      }
+      var themee = getCookie("themee");
+      if (themee === 'light') {
+        document.body.classList.remove('dark-mode');
+      }
+      if (themee === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const ns = e.matches ? "dark" : "light";
+        var now = new Date();
+        var time = now.getTime();
+        time += 3600 * 24000 * 30;
+        now.setTime(time);
+        if (ns === 'light') {
+          document.body.classList.remove('dark-mode');
+          document.cookie = 'themee=' + ns + '; expires=' + now.toUTCString() + '; path=/';
+        }
+        if (ns === 'dark') {
+          document.body.classList.add('dark-mode');
+          document.cookie = 'themee=' + ns + '; expires=' + now.toUTCString() + '; path=/';
+        }
+      });
+      if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -106,6 +162,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script>
+      if (document.body.classList.contains('dark-mode')) {
+        var element = document.getElementById('btn-dark-mode');
+        if (typeof(element) != 'undefined' && element != null) {
+          document.getElementById('btn-dark-mode').checked = true;
+        }
+      } else {
+        var element = document.getElementById('btn-light-theme');
+        if (typeof(element) != 'undefined' && element != null) {
+          document.getElementById('btn-light-theme').checked = true;
+        }
+      }
+      function handleThemeChange(src) {
+        var event = document.createEvent('Event');
+        event.initEvent('themeChange', true, true);
+
+        if (src.value === 'light') {
+          document.body.classList.remove('dark-mode');
+        }
+        if (src.value === 'dark') {
+          document.body.classList.add('dark-mode');
+        }
+
+        var now = new Date();
+        var time = now.getTime();
+        time += 3600 * 24000 * 30;
+        now.setTime(time);
+        document.cookie = 'themee=' + src.value + '; expires=' + now.toUTCString() + '; path=/';
+        document.body.dispatchEvent(event);
+      }
+    </script>
     <script>
         $(function() {
   let copyButtonTrans = '{{ trans('global.datatables.copy') }}'

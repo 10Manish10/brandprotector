@@ -78,4 +78,46 @@
         <!-- /.login-card-body -->
     </div>
 </div>
+<script>
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return false;
+    }
+    var themee = getCookie("themee");
+    if (themee === 'light') {
+        document.body.classList.remove('dark-mode');
+    }
+    if (themee === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const ns = e.matches ? "dark" : "light";
+        var now = new Date();
+        var time = now.getTime();
+        time += 3600 * 24000 * 30;
+        now.setTime(time);
+        if (ns === 'light') {
+            document.body.classList.remove('dark-mode');
+            document.cookie = 'themee=' + ns + '; expires=' + now.toUTCString() + '; path=/';
+        }
+        if (ns === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.cookie = 'themee=' + ns + '; expires=' + now.toUTCString() + '; path=/';
+        }
+    });
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+    }
+</script>
 @endsection

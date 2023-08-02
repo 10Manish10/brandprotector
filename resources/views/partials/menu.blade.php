@@ -1,7 +1,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
+    <a href="#" class="brand-link" style="padding: 0.2rem 0.5rem !important;">
+        <img src="https://cdn.shopify.com/s/files/1/0631/3410/5829/files/logo.png?v=1690990710" alt="Brand Protection" style="height: 50px;">
+        <!-- <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span> -->
     </a>
 
     <!-- Sidebar -->
