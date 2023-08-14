@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="login-box">
-    <div class="login-logo">
+    <div class="login-logo" style="display:none;">
         <div class="login-logo">
             <a href="{{ route('admin.home') }}">
                 {{ trans('panel.site_title') }}
@@ -10,6 +10,7 @@
     </div>
     <div class="card">
         <div class="card-body login-card-body">
+        <img src="https://cdn.shopify.com/s/files/1/0631/3410/5829/files/logo.png?v=1690990710" alt="Brand Protector" style="height:80px;margin-bottom:15px;display:block;margin-left:auto;margin-right:auto;">
             <p class="login-box-msg">
                 {{ trans('global.reset_password') }}
             </p>

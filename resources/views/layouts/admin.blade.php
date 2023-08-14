@@ -175,8 +175,8 @@
         }
       }
       function handleThemeChange(src) {
-        var event = document.createEvent('Event');
-        event.initEvent('themeChange', true, true);
+        // var event = document.createEvent('Event');
+        // event.initEvent('themeChange', true, true);
 
         if (src.value === 'light') {
           document.body.classList.remove('dark-mode');
