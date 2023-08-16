@@ -20,13 +20,14 @@ class EmailTemplatesApiController extends Controller
     {
         abort_if(Gate::denies('email_template_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new EmailTemplateResource(EmailTemplate::with(['clients'])->get());
+        return new EmailTemplateResource(EmailTemplate::with(['clients', 'channels'])->get());
     }
 
     public function store(StoreEmailTemplateRequest $request)
     {
         $emailTemplate = EmailTemplate::create($request->all());
         $emailTemplate->clients()->sync($request->input('clients', []));
+        $emailTemplate->channels()->sync($request->input('channels', []));
 
         return (new EmailTemplateResource($emailTemplate))
             ->response()
@@ -37,13 +38,14 @@ class EmailTemplatesApiController extends Controller
     {
         abort_if(Gate::denies('email_template_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new EmailTemplateResource($emailTemplate->load(['clients']));
+        return new EmailTemplateResource($emailTemplate->load(['clients', 'channels']));
     }
 
     public function update(UpdateEmailTemplateRequest $request, EmailTemplate $emailTemplate)
     {
         $emailTemplate->update($request->all());
         $emailTemplate->clients()->sync($request->input('clients', []));
+        $emailTemplate->channels()->sync($request->input('channels', []));
 
         return (new EmailTemplateResource($emailTemplate))
             ->response()

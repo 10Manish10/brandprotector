@@ -15,7 +15,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-clientsEmailTemplates">
+                <table class=" table table-bordered table-striped table-hover datatable datatable-channelsEmailTemplates">
                     <thead>
                         <tr>
                             <th width="10">
@@ -137,7 +137,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 10,
   });
-  let table = $('.datatable-clientsEmailTemplates:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-channelsEmailTemplates:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

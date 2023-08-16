@@ -71,6 +71,22 @@
                 <span class="help-block">{{ trans('cruds.emailTemplate.fields.to_email_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="channels">{{ trans('cruds.emailTemplate.fields.channels') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('channels') ? 'is-invalid' : '' }}" name="channels[]" id="channels" multiple>
+                    @foreach($channels as $id => $channel)
+                        <option value="{{ $id }}" {{ in_array($id, old('channels', [])) ? 'selected' : '' }}>{{ $channel }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('channels'))
+                    <span class="text-danger">{{ $errors->first('channels') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.emailTemplate.fields.channels_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

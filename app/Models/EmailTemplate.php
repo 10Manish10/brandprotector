@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Auditable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class EmailTemplate extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory;
+    use SoftDeletes, InteractsWithMedia, Auditable, HasFactory;
 
     public $table = 'email_templates';
 
@@ -54,5 +55,10 @@ class EmailTemplate extends Model implements HasMedia
     public function clients()
     {
         return $this->belongsToMany(Client::class);
+    }
+
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class);
     }
 }

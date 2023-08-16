@@ -24,9 +24,6 @@ class UpdateChannelRequest extends FormRequest
                 'required',
                 'unique:channels,channel_name,' . request()->route('channel')->id,
             ],
-            'variables' => [
-                'string',
-            ],
             'subscription_plans.*' => [
                 'integer',
             ],
