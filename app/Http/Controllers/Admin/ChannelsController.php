@@ -77,21 +77,7 @@ class ChannelsController extends Controller
 
     public function store(StoreChannelRequest $request)
     {
-        $data = $request->all();
-        $names = $data['var']['name'];
-        $datatypes = $data['var']['datatype'];
-        $temp = array();
-        for ($i = 0; $i < $data['rows']; $i++) { 
-            $temp[] = array(
-                'name' => $names[$i],
-                'datatype' => $datatypes[$i],
-            );
-        }
-        unset($data['var']);
-        unset($data['rows']);
-        $data['variables'] = serialize($temp);
-
-        $channel = Channel::create($data);
+        $channel = Channel::create($request->all());
         $channel->subscription_plans()->sync($request->input('subscription_plans', []));
 
         return redirect()->route('admin.channels.index');
@@ -110,21 +96,7 @@ class ChannelsController extends Controller
 
     public function update(UpdateChannelRequest $request, Channel $channel)
     {
-        $data = $request->all();
-        $names = $data['var']['name'];
-        $datatypes = $data['var']['datatype'];
-        $temp = array();
-        for ($i = 0; $i < $data['rows']; $i++) { 
-            $temp[] = array(
-                'name' => $names[$i],
-                'datatype' => $datatypes[$i],
-            );
-        }
-        unset($data['var']);
-        unset($data['rows']);
-        $data['variables'] = serialize($temp);
-
-        $channel->update($data);
+        $channel->update($request->all());
         $channel->subscription_plans()->sync($request->input('subscription_plans', []));
 
         return redirect()->route('admin.channels.index');

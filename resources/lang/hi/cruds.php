@@ -99,6 +99,8 @@ return [
             'deleted_at_helper'        => ' ',
             'subscription_plan'        => 'Subscription Plan',
             'subscription_plan_helper' => ' ',
+            'variables'                => 'Variables',
+            'variables_helper'         => ' ',
         ],
     ],
     'client' => [
