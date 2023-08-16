@@ -19984,6 +19984,30 @@
     border: 1px solid #56606a;
     border-left: none;
   }
+  .dark-mode .dataTables_wrapper .dataTables_length, 
+  .dark-mode .dataTables_wrapper .dataTables_filter, 
+  .dark-mode .dataTables_wrapper .dataTables_info, 
+  .dark-mode .dataTables_wrapper .dataTables_processing, 
+  .dark-mode .dataTables_wrapper .dataTables_paginate {
+    color: #ced4da !important;
+  }
+  .dark-mode a:not([class]) {
+    color: #c58af9;
+  }
+  .dark-mode .ck-editor p {
+    color: #000 !important;
+  }
+  nav.main-header {
+    position: sticky;
+    top: 0;
+  }
+  .dark-mode aside a.brand-link {
+    background: #202124;
+  }
+  .dark-mode table.dataTable tbody td.select-checkbox:before, 
+  .dark-mode table.dataTable tbody th.select-checkbox:before {
+    border-color: #ced4da !important;
+  }
   
   .dark-mode .form-control:not(.form-control-navbar):not(.form-control-sidebar),
   .dark-mode .custom-select,
