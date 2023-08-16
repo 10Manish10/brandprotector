@@ -73,6 +73,16 @@
                             {{ $emailTemplate->to_email }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.emailTemplate.fields.channels') }}
+                        </th>
+                        <td>
+                            @foreach($emailTemplate->channels as $key => $channels)
+                                <span class="label label-info">{{ $channels->channel_name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

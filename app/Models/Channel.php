@@ -33,6 +33,11 @@ class Channel extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function channelsEmailTemplates()
+    {
+        return $this->belongsToMany(EmailTemplate::class);
+    }
+
     public function subscription_plans()
     {
         return $this->belongsToMany(Subscription::class);

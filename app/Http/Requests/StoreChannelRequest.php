@@ -24,9 +24,6 @@ class StoreChannelRequest extends FormRequest
                 'required',
                 'unique:channels',
             ],
-            'variables' => [
-                'string',
-            ],
             'subscription_plans.*' => [
                 'integer',
             ],

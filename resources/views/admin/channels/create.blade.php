@@ -1,11 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<style>
-    .variables.table-responsive{
-        padding: 5px;
-        margin: -5px;
-    }
-</style>
+
 <div class="card">
     <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.channel.title_singular') }}
@@ -20,6 +15,7 @@
                 @if($errors->has('channel_name'))
                     <span class="text-danger">{{ $errors->first('channel_name') }}</span>
                 @endif
+                <span class="help-block">{{ trans('cruds.channel.fields.channel_name_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="subscription_plans">{{ trans('cruds.channel.fields.subscription_plan') }}</label>
@@ -35,44 +31,7 @@
                 @if($errors->has('subscription_plans'))
                     <span class="text-danger">{{ $errors->first('subscription_plans') }}</span>
                 @endif
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <label class="required" for="">Channel Variables</label>
-                        <div class="variables table-responsive">
-                            <table class="table table-bordered table-striped table-hover">
-                                <thead>
-                                    <tr class="success">
-                                        <td></td>
-                                        <td>Variable Name</td>
-                                        <td>Variable Data Type</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><button type="button" class="btn btn-xs btn-danger remove">✗</button></td>
-                                        <td><input type="text" class="form-control" name="var[name][]" required></td>
-                                        <td>
-                                            <select class="form-select form-control" aria-label="Select Data Type" name="var[datatype][]" required>
-                                                <option value="" selected>Select DataType</option>
-                                                <option value="array">Array (multi input)</option>
-                                                <option value="date">Date</option>
-                                                <option value="email">Email</option>
-                                                <option value="number">Number</option>
-                                                <option value="password">Password</option>
-                                                <option value="text">Text</option>
-                                                <option value="url">URL</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <input type="hidden" name="rows" id="rows" value="1">
-                                </tbody>
-                            </table>
-                            <button type="button" class="btn btn-success addvar">+</button>
-                        </div>
-                    </div>
-                </div>
+                <span class="help-block">{{ trans('cruds.channel.fields.subscription_plan_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -83,45 +42,6 @@
     </div>
 </div>
 
-@endsection
 
-@section('scripts')
-@parent
-<script>
-    try {
-        $(document).on("click", "button.addvar", function(){
-            var rows = $("#rows").val();
-            var tr = `
-                <tr>
-                    <td><button type="button" class="btn btn-xs btn-danger remove">\✗</button></td>
-                    <td><input type="text" class="form-control" name="var[name][]" required></td>
-                    <td>
-                        <select class="form-select form-control" aria-label="Select Data Type" name="var[datatype][]" required>
-                            <option value="" selected>Select DataType</option>
-                            <option value="array">Array (multi input)</option>
-                            <option value="date">Date</option>
-                            <option value="email">Email</option>
-                            <option value="number">Number</option>
-                            <option value="password">Password</option>
-                            <option value="text">Text</option>
-                            <option value="url">URL</option>
-                        </select>
-                    </td>
-                </tr>
-            `;
-            rows++;
-            $("#rows").val(rows);
-            $(".variables table tbody").append(tr);
-        });
-        $(document).on("click", "button.remove", function(){
-            console.log("remove");
-            var rows = $("#rows").val();
-            rows--;
-            $("#rows").val(rows);
-            $(this).closest("tr").remove();
-        });
-    } catch (e) {
-        console.error(`Error in adding variables - ${e}`)
-    }
-</script>
+
 @endsection

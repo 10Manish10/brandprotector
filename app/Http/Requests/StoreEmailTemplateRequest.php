@@ -42,6 +42,12 @@ class StoreEmailTemplateRequest extends FormRequest
             'to_email' => [
                 'required',
             ],
+            'channels.*' => [
+                'integer',
+            ],
+            'channels' => [
+                'array',
+            ],
         ];
     }
 }

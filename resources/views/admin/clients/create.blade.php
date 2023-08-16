@@ -1,21 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<style>
-    .currentform:not(.loading) .loader {
-        display: none !important;
-    }
-    .currentform.loading .loader {
-        display: block;
-        position: absolute;
-        top: 50%;
-        left:50%;
-        transform:translate(-50%, -50%);
-        z-index: 99999;
-    }
-    .currentform.loading {
-        opacity: 0.5;
-    }
-</style>
+
 <div class="card">
     <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.client.title_singular') }}

@@ -35,6 +35,9 @@
                             {{ trans('cruds.emailTemplate.fields.clients') }}
                         </th>
                         <th>
+                            {{ trans('cruds.emailTemplate.fields.channels') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -42,13 +45,13 @@
                         <td>
                         </td>
                         <td>
-                            <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
-                            <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
-                            <select class="search custom-select" strict="true">
+                            <select class="search" strict="true">
                                 <option value>{{ trans('global.all') }}</option>
                                 @foreach(App\Models\EmailTemplate::PRIORITY_RADIO as $key => $item)
                                     <option value="{{ $item }}">{{ $item }}</option>
@@ -56,10 +59,18 @@
                             </select>
                         </td>
                         <td>
-                            <select class="search custom-select">
+                            <select class="search">
                                 <option value>{{ trans('global.all') }}</option>
                                 @foreach($clients as $key => $item)
                                     <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($channels as $key => $item)
+                                    <option value="{{ $item->channel_name }}">{{ $item->channel_name }}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -85,6 +96,11 @@
                             <td>
                                 @foreach($emailTemplate->clients as $key => $item)
                                     <span class="badge badge-info">{{ $item->name }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($emailTemplate->channels as $key => $item)
+                                    <span class="badge badge-info">{{ $item->channel_name }}</span>
                                 @endforeach
                             </td>
                             <td>

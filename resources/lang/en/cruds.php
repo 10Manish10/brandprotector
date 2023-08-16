@@ -99,6 +99,8 @@ return [
             'deleted_at_helper'        => ' ',
             'subscription_plan'        => 'Subscription Plan',
             'subscription_plan_helper' => ' ',
+            'variables'                => 'Variables',
+            'variables_helper'         => ' ',
         ],
     ],
     'client' => [
@@ -159,6 +161,8 @@ return [
             'updated_at_helper' => ' ',
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => ' ',
+            'channels'          => 'Channels',
+            'channels_helper'   => ' ',
         ],
     ],
     'report' => [
