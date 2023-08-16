@@ -19994,7 +19994,7 @@
   .dark-mode a:not([class]) {
     color: #c58af9;
   }
-  .dark-mode .ck-editor p {
+  .dark-mode .ck-editor * {
     color: #000 !important;
   }
   nav.main-header {
