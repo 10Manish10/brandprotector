@@ -12,6 +12,7 @@ class CreateChannelsTable extends Migration
             $table->bigIncrements('id');
             $table->string('channel_name')->unique();
             $table->string('variables')->nullable();
+            $table->string('nullable')->unique();
             $table->timestamps();
             $table->softDeletes();
         });
