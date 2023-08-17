@@ -9924,6 +9924,9 @@
     top: 0;
     z-index: 9999;
   }
+  .dark-mode .ck-tooltip__text {
+    color: #fff !important;
+  }
   .dark-mode .table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(0,0,0,0.15);
   }
@@ -19994,7 +19997,7 @@
   .dark-mode a:not([class]) {
     color: #c58af9;
   }
-  .dark-mode .ck-editor * {
+  .dark-mode .ck-editor *:not(.ck-tooltip__text) {
     color: #000 !important;
   }
   nav.main-header {
