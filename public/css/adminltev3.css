@@ -20016,7 +20016,7 @@
   .dark-mode .custom-select,
   .dark-mode .custom-file-label,
   .dark-mode .custom-file-label::after,
-  .dark-mode .custom-control-label::before,
+  /* .dark-mode .custom-control-label::before, */
   .dark-mode .input-group-text,
   .dark-mode .dropzone {
     background-color: #4f5a64 !important;
