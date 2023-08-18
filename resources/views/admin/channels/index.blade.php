@@ -38,13 +38,13 @@
                     <td>
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <select class="search">
+                        <select class="search custom-select">
                             <option value>{{ trans('global.all') }}</option>
                             @foreach($subscriptions as $key => $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>

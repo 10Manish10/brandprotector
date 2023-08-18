@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('clients/destroy', 'ClientsController@massDestroy')->name('clients.massDestroy');
     Route::post('clients/media', 'ClientsController@storeMedia')->name('clients.storeMedia');
     Route::post('clients/ckmedia', 'ClientsController@storeCKEditorImages')->name('clients.storeCKEditorImages');
+    Route::get('clients/channels/{subid}', 'ClientsController@getChannelBySubscription')->name('clients.getChannelBySubscription');
     Route::resource('clients', 'ClientsController');
 
     // Email Templates

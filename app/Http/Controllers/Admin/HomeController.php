@@ -9,7 +9,7 @@ class HomeController
     public function index()
     {
         $settings1 = [
-            'chart_title'           => 'Clinets Report',
+            'chart_title'           => 'Clients Report',
             'chart_type'            => 'line',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Client',

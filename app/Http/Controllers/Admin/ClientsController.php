@@ -8,7 +8,10 @@ use App\Http\Requests\MassDestroyClientRequest;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
+use App\Models\Subscription;
+use App\Models\Channel;
 use Gate;
+use DB;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,8 +96,8 @@ class ClientsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('client_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.clients.create');
+        $subscription = Subscription::all();
+        return view('admin.clients.create', compact('subscription'));
     }
 
     public function store(StoreClientRequest $request)
@@ -119,8 +122,8 @@ class ClientsController extends Controller
     public function edit(Client $client)
     {
         abort_if(Gate::denies('client_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.clients.edit', compact('client'));
+        $subscription = Subscription::all();
+        return view('admin.clients.edit', compact('client'), compact('subscription'));
     }
 
     public function update(UpdateClientRequest $request, Client $client)
@@ -195,4 +198,23 @@ class ClientsController extends Controller
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
+    
+    public function getChannelBySubscription($subid) {
+        try {
+            abort_if(Gate::denies('client_create') && Gate::denies('client_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+            $cid = DB::table('channel_subscription')->select('channel_id')->where(['subscription_id' => $subid])->pluck('channel_id');
+            $channelsRaw = Channel::get(['id', 'channel_name', 'variables'])->whereIn('id', $cid);
+            $channels = [];
+            foreach ($channelsRaw as $chr) {
+                $channels[] = $chr;
+            }
+            foreach ($channels as $c) {
+                $c->variables = unserialize($c->variables);
+            }
+            return response()->json($channels);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
 }
