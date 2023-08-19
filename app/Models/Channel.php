@@ -26,6 +26,7 @@ class Channel extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'variables',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

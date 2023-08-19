@@ -102,7 +102,15 @@ class ClientsController extends Controller
 
     public function store(StoreClientRequest $request)
     {
-        $client = Client::create($request->all());
+        $data = $request->all();
+
+        if (isset($data['channels'])) {
+            $data['channels'] = serialize($data['channels']);
+        }
+        if (isset($data['variables'])) {
+            $data['variables'] = serialize($data['variables']);
+        }
+        $client = Client::create($data);
 
         if ($request->input('logo', false)) {
             $client->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
@@ -123,12 +131,31 @@ class ClientsController extends Controller
     {
         abort_if(Gate::denies('client_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $subscription = Subscription::all();
+        $client->variables = unserialize($client->variables);
+        $client->channels = unserialize($client->channels);
+
+        $cid = DB::table('channel_subscription')->select('channel_id')->where(['subscription_id' => $client->subplan])->pluck('channel_id');
+        $channelsRaw = Channel::get(['id', 'channel_name'])->whereIn('id', $cid);
+        $channels = [];
+        foreach ($channelsRaw as $chr) {
+            $channels[] = $chr;
+        }
+        $client->allChannels = $channels;
         return view('admin.clients.edit', compact('client'), compact('subscription'));
     }
 
     public function update(UpdateClientRequest $request, Client $client)
     {
-        $client->update($request->all());
+        $data = $request->all();
+
+        if (isset($data['channels'])) {
+            $data['channels'] = serialize($data['channels']);
+        }
+        if (isset($data['variables'])) {
+            $data['variables'] = serialize($data['variables']);
+        }
+
+        $client->update($data);
 
         if ($request->input('logo', false)) {
             if (! $client->logo || $request->input('logo') !== $client->logo->file_name) {

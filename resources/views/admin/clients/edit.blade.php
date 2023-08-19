@@ -120,15 +120,56 @@
 						<label class="required">Choose Subscription Plan</label>
 						@foreach($subscription as $id => $sub)
 							<div class="custom-control custom-radio">
-								<input class="custom-control-input" data-subid="{{$sub->id}}" type="radio" id="subid-{{$sub->id}}" name="subplan">
+								@if($client->subplan == $sub->id)
+									<input class="custom-control-input" data-subid="{{$sub->id}}" type="radio" id="subid-{{$sub->id}}" name="subplan" value="{{$sub->id}}" checked="checked">
+								@else
+									<input class="custom-control-input" data-subid="{{$sub->id}}" type="radio" id="subid-{{$sub->id}}" name="subplan" value="{{$sub->id}}">
+								@endif
 								<label for="subid-{{$sub->id}}" class="custom-control-label">{{$sub->name}} ({{$sub->plan_amount}})</label>
 							</div>
 						@endforeach
 					</div>
 					<div class="form-group">
-						<div id="plan-channels"></div>
+						<div id="plan-channels">
+							@if(isset($client->allChannels))
+								<label class="required">Choose Channel</label>
+								@foreach($client->allChannels as $ch)
+									<div class="custom-control custom-switch">
+										@if(isset($client->channels[$ch->channel_name]))
+											<input type="checkbox" class="custom-control-input" value="{{$ch->id}}" data-cname="{{$ch->channel_name}}" data-cid="{{$ch->id}}" name="channels[{{$ch->channel_name}}]" id="channels[{{$ch->id}}]" checked="checked">
+										@else
+											<input type="checkbox" class="custom-control-input" value="{{$ch->id}}" data-cname="{{$ch->channel_name}}" data-cid="{{$ch->id}}" name="channels[{{$ch->channel_name}}]" id="channels[{{$ch->id}}]">
+										@endif
+										<label class="custom-control-label" for="channels[{{$ch->id}}]">{{$ch->channel_name}}</label>
+									</div>
+								@endforeach
+							@endif
+						</div>
 					</div>
-					<div id="variables"></div>
+					<div id="variables">
+						@if(isset($client->variables) && gettype($client->variables) == 'array')
+							@foreach($client->variables as $chName => $chData)
+								<div class="card" id="chvar-{{$client->channels[$chName]}}">
+									<div class="card-header">
+										<b>Enter {{$chName}} Variables</b>
+									</div>
+									<div class="card-body">
+										@if(isset($chData) && gettype($chData) == 'array')
+											@foreach($chData as $clVarName => $clVarData)
+												<div class="form-group">
+													<label class="required" for="{{$chName}}.{{$clVarName}}">{{$clVarName}}</label>
+													<input type="hidden" name="variables[{{$chName}}][{{$clVarName}}][type]" value="{{$clVarData['type']}}">
+													<input class="form-control" type="{{$clVarData['type']}}" name="variables[{{$chName}}][{{$clVarName}}][data]" id="variables[{{$chName}}][{{$clVarName}}]" required="" value="{{$clVarData['data']}}">
+												</div>
+											@endforeach
+										@else
+											<p>No data available</p>
+										@endif
+									</div>
+								</div>
+							@endforeach
+						@endif
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -166,8 +207,8 @@
 				x.forEach(channel => {
 					channelDiv += `
 					<div class="custom-control custom-switch">
-						<input type="checkbox" class="custom-control-input" data-cname="${channel.channel_name}" data-cid="${channel.id}" name="channel[]" id="channel[${channel.id}]">
-						<label class="custom-control-label" for="channel[${channel.id}]">${channel.channel_name}</label>
+						<input type="checkbox" class="custom-control-input" value="${channel.id}" data-cname="${channel.channel_name}" data-cid="${channel.id}" name="channels[${channel.channel_name}]" id="channels[${channel.id}]">
+						<label class="custom-control-label" for="channels[${channel.id}]">${channel.channel_name}</label>
 					</div>
 					`
 					thisform.removeClass("loading")
@@ -197,7 +238,8 @@
 				variableHtml += `
 				<div class="form-group">
 					<label class="required" for="${cname}.${v.name}">${v.name}</label>
-					<input class="form-control" type="${v.datatype}" name="${cname}.${v.name}" id="${cname}.${v.name}" required>
+					<input type="hidden" name="variables[${cname}][${v.name}][type]" value="${v.datatype}">
+					<input class="form-control" type="${v.datatype}" name="variables[${cname}][${v.name}][data]" id="variables[${cname}][${v.name}]" required>
 				</div>
 				`
 			})

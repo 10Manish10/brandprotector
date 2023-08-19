@@ -19,6 +19,8 @@ class CreateClientsTable extends Migration
             $table->string('company_name')->unique();
             $table->longText('multiple_emails')->nullable();
             $table->string('variables');
+            $table->unsignedBigInteger('subplan');
+            $table->string('channels');
             $table->timestamps();
             $table->softDeletes();
         });
