@@ -4,14 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChannelsTable extends Migration
+class AmazonFields extends Migration
 {
     public function up()
     {
-        Schema::create('channels', function (Blueprint $table) {
+        Schema::create('amazon', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('channel_name')->unique();
-            $table->longText('variables');
+            $table->integer('channelId');
+            $table->integer('clientId');
+            $table->integer('subscriptionId');
+            $table->longText('response')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
