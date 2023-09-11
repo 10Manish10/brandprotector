@@ -70,3 +70,5 @@ Route::group(['namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function 
 });
 
 Route::get('/cron/amazon/{channelId}/{clientId}', 'AmazonController@amazonCron')->name('amazon.getData');
+Route::get('/api1', 'AmazonController@api1')->name('amazon.api1');
+Route::get('/api2/{datasetId}', 'AmazonController@api2')->name('amazon.api2');
