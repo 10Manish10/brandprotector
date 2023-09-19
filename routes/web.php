@@ -69,6 +69,7 @@ Route::group(['namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function 
     }
 });
 
-Route::get('/cron/amazon/{channelId}/{clientId}', 'AmazonController@amazonCron')->name('amazon.getData');
-Route::get('/api1', 'AmazonController@api1')->name('amazon.api1');
-Route::get('/api2/{datasetId}', 'AmazonController@api2')->name('amazon.api2');
+Route::get('/amazon/create-dataset/{channelId}/{clientId}/{keyword}', 'AmazonController@createDataset')->name('amazon.createDataset');
+Route::get('/amazon/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'AmazonController@saveData')->name('amazon.saveData');
+
+Route::get('/scrap/update-dataset-runs/{runId?}', 'DatasetsScrap@updateStatus')->name('datascrap.updateDatasetRuns');

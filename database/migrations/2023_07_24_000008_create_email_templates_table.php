@@ -10,11 +10,11 @@ class CreateEmailTemplatesTable extends Migration
     {
         Schema::create('email_templates', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('subject');
-            $table->longText('email_body');
-            $table->string('priority');
-            $table->string('from_email');
-            $table->string('to_email');
+            $table->string('subject')->nullable();
+            $table->longText('email_body')->nullable();
+            $table->string('priority')->nullable();
+            $table->string('from_email')->nullable();
+            $table->string('to_email')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
