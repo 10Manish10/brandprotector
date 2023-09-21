@@ -40,6 +40,9 @@ class Client extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+        'variables',
+        'subplan',
+        'channels',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

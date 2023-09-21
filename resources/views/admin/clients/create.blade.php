@@ -119,7 +119,7 @@
 						<label class="required">Choose Subscription Plan</label>
 						@foreach($subscription as $id => $sub)
 							<div class="custom-control custom-radio">
-								<input class="custom-control-input" data-subid="{{$sub->id}}" type="radio" id="subid-{{$sub->id}}" name="subplan">
+								<input class="custom-control-input" data-subid="{{$sub->id}}" type="radio" id="subid-{{$sub->id}}" name="subplan" value="{{$sub->id}}">
 								<label for="subid-{{$sub->id}}" class="custom-control-label">{{$sub->name}} ({{$sub->plan_amount}})</label>
 							</div>
 						@endforeach
@@ -165,8 +165,8 @@
 				x.forEach(channel => {
 					channelDiv += `
 					<div class="custom-control custom-switch">
-						<input type="checkbox" class="custom-control-input" data-cname="${channel.channel_name}" data-cid="${channel.id}" name="channel[]" id="channel[${channel.id}]">
-						<label class="custom-control-label" for="channel[${channel.id}]">${channel.channel_name}</label>
+						<input type="checkbox" class="custom-control-input" value="${channel.id}" data-cname="${channel.channel_name}" data-cid="${channel.id}" name="channels[${channel.channel_name}]" id="channels[${channel.id}]">
+						<label class="custom-control-label" for="channels[${channel.id}]">${channel.channel_name}</label>
 					</div>
 					`
 					thisform.removeClass("loading")
@@ -196,7 +196,8 @@
 				variableHtml += `
 				<div class="form-group">
 					<label class="required" for="${cname}.${v.name}">${v.name}</label>
-					<input class="form-control" type="${v.datatype}" name="${cname}.${v.name}" id="${cname}.${v.name}" required>
+					<input type="hidden" name="variables[${cname}][${v.name}][type]" value="${v.datatype}">
+					<input class="form-control" type="${v.datatype}" name="variables[${cname}][${v.name}][data]" id="variables[${cname}][${v.name}]" required>
 				</div>
 				`
 			})
