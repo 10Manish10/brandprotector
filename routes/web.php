@@ -69,7 +69,13 @@ Route::group(['namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function 
     }
 });
 
+// General
+Route::get('/scrap/update-dataset-runs/{runId?}', 'DatasetsScrap@updateStatus')->name('datascrap.updateDatasetRuns');
+
+// Amazon Channel
 Route::get('/amazon/create-dataset/{channelId}/{clientId}/{keyword}', 'AmazonController@createDataset')->name('amazon.createDataset');
 Route::get('/amazon/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'AmazonController@saveData')->name('amazon.saveData');
 
-Route::get('/scrap/update-dataset-runs/{runId?}', 'DatasetsScrap@updateStatus')->name('datascrap.updateDatasetRuns');
+// Google Channel
+Route::get('/google/create-dataset/{channelId}/{clientId}/{keyword}', 'GoogleController@createDataset')->name('google.createDataset');
+Route::get('/google/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'GoogleController@saveData')->name('google.saveData');

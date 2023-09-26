@@ -22,10 +22,10 @@ class DatasetsScrap extends Controller
      */
     public function updateStatus($runId = "") {
         if ($runId == "") {
-            $existingData = Datasets::where('run_status', '!=', "SUCCEEDED")->limit(50)->get();
+            $existingData = Datasets::where('run_status', '!=', "SUCCEEDED")->limit(10)->get();
             // only push multiple records in queue, if direct call then do as usual
             foreach ($existingData as $data) {
-                // $this->produce($data->run_id);
+                $this->consume($data->run_id, $existingData->run_status);
             }
         } else {
             $existingData = Datasets::where('run_id', $runId)->first();
