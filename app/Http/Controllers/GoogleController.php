@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Session;
 
 class GoogleController extends Controller
 {
+    private $channelName;
+    private $ScrapperApiToken;
+    private $ScrapperApiEndpoint;
+    private $actor;
+    private $StoreDataSetLimit;
+
     public function __construct() {
         // $this->middleware('auth');
         $this->channelName = "google";
