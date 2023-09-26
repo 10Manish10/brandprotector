@@ -79,3 +79,19 @@ Route::get('/amazon/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'A
 // Google Channel
 Route::get('/google/create-dataset/{channelId}/{clientId}/{keyword}', 'GoogleController@createDataset')->name('google.createDataset');
 Route::get('/google/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'GoogleController@saveData')->name('google.saveData');
+
+// Ebay Channel
+Route::get('/ebay/create-dataset/{channelId}/{clientId}/{keyword}', 'EbayController@createDataset')->name('ebay.createDataset');
+Route::get('/ebay/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'EbayController@saveData')->name('ebay.saveData');
+
+// Etsy Channel
+Route::get('/etsy/create-dataset/{channelId}/{clientId}/{keyword}', 'EtsyController@createDataset')->name('etsy.createDataset');
+Route::get('/etsy/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'EtsyController@saveData')->name('etsy.saveData');
+
+// AliExpress Channel
+Route::get('/aliexpress/create-dataset/{channelId}/{clientId}/{keyword}', 'AliExpressController@createDataset')->name('aliexpress.createDataset');
+Route::get('/aliexpress/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'AliExpressController@saveData')->name('aliexpress.saveData');
+
+// Walmart Channel
+Route::get('/walmart/create-dataset/{channelId}/{clientId}/{keyword}', 'WalmartController@createDataset')->name('walmart.createDataset');
+Route::get('/walmart/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'WalmartController@saveData')->name('walmart.saveData');

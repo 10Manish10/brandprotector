@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('hash')->nullable();
             $table->string('severity')->enum('status', ['low', 'medium', 'high'])->default('medium');
             $table->string('keyword')->nullable();
-            $table->string('url')->nullable();
+            $table->longText('url')->nullable();
             $table->string('title')->nullable();
             $table->dateTime('lastUpdated')->nullable();
             $table->string('price')->nullable();
-            $table->string('image')->nullable();
+            $table->longText('image')->nullable();
             $table->string('seller')->nullable();
             $table->string('brand')->nullable();
             $table->string('type')->nullable();

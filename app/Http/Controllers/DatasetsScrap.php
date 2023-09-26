@@ -25,7 +25,7 @@ class DatasetsScrap extends Controller
             $existingData = Datasets::where('run_status', '!=', "SUCCEEDED")->limit(10)->get();
             // only push multiple records in queue, if direct call then do as usual
             foreach ($existingData as $data) {
-                $this->consume($data->run_id, $existingData->run_status);
+                $this->consume($data->run_id, $data->run_status);
             }
         } else {
             $existingData = Datasets::where('run_id', $runId)->first();

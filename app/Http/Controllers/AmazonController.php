@@ -110,6 +110,9 @@ class AmazonController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $dump = json_decode($response);
+        if (isset($dump->error)) {
+            return $dump;
+        }
         $datasetId = $dump->data->defaultDatasetId;
 
         // Ensure that we store only the latest StoreDataSetLimit number of datasets to avoid api failure as old datasets gets expired on apify
@@ -181,7 +184,7 @@ class AmazonController extends Controller
         $dumpResponse = json_decode($response);
 
         // basic validations of response
-        if (isset($dumpResponse['error'])) {
+        if (isset($dumpResponse['error']) || isset($dumpResponse->error)) {
             return $dumpResponse;
         }
         if (isset($dumpResponse) && !empty($dumpResponse)) {
