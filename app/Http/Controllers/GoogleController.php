@@ -58,6 +58,18 @@ class GoogleController extends Controller
         $client->channelData = $client->variables[$channelName];
         $sessionKey = "channel_".$channelId."__client_".$clientId;
         Session::put($sessionKey, "AUTH_OK");
+
+        $whitelistValue = "";
+        if (isset($client->channelData['Whitelist']) && !empty($client->channelData['Whitelist'])) {
+            $whitelistValue = $client->channelData['Whitelist']['data'];
+        }
+        if (isset($client->channelData['whitelist']) && !empty($client->channelData['whitelist'])) {
+            $whitelistValue = $client->channelData['whitelist']['data'];
+        }
+        if ($whitelistValue != "") {
+            $whitelistKey = "channel_".$channelId."__client_".$clientId."__whitelistKey";
+            Session::put($whitelistKey, $whitelistValue);
+        }
         if ($returnClient) {
             return $client;
         }
@@ -199,14 +211,28 @@ class GoogleController extends Controller
             );
             TKO_SearchEngine::where($existingWhere)->forceDelete();
         }
+        $whitelistKey = "channel_".$channelId."__client_".$clientId."__whitelistKey";
+        $whitelistValue = Session::get($whitelistKey);
+        if (isset($whitelistValue) && $whitelistValue != "") {
+            $whitelistValue = explode(",", $whitelistValue);
+            $whitelistValue = array_map('trim', $whitelistValue);
+        }
 
         if (isset($dumpResponse->organicResults) && !empty($dumpResponse->organicResults)) {
             foreach ($dumpResponse->organicResults as $dump) {
+                $severity = "medium";
+                foreach ($whitelistValue as $w) {
+                    if (stripos($dump->title, $w) != false) {
+                        $severity = "low";
+                        break;
+                    }
+                }
                 $data = array(
                     "client_id" => $clientId,
                     'channel_id'=> $channelId,
                     'channel_name' => $this->channelName,
                     'dataset' => $datasetId,
+                    'severity' => $severity,
                     'keyword' => $keyword,
                     "url" => $dump->url,
                     "title" => $dump->title,
@@ -220,11 +246,19 @@ class GoogleController extends Controller
         }
         if (isset($dumpResponse->paidResults) && !empty($dumpResponse->paidResults)) {
             foreach ($dumpResponse->paidResults as $dump) {
+                $severity = "medium";
+                foreach ($whitelistValue as $w) {
+                    if (stripos($dump->title, $w) != false) {
+                        $severity = "low";
+                        break;
+                    }
+                }
                 $data = array(
                     "client_id" => $clientId,
                     'channel_id'=> $channelId,
                     'channel_name' => $this->channelName,
                     'dataset' => $datasetId,
+                    'severity' => $severity,
                     'keyword' => $keyword,
                     "url" => $dump->url,
                     "title" => $dump->title,

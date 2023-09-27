@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
-class AmazonController extends Controller
+class EtsyController extends Controller
 {
     private $channelName;
     private $ScrapperApiToken;
@@ -23,8 +23,8 @@ class AmazonController extends Controller
 
     public function __construct() {
         // $this->middleware('auth');
-        $this->channelName = "amazon";
-        $this->actor = "junglee~free-amazon-product-scraper";
+        $this->channelName = "etsy";
+        $this->actor = "epctex~etsy-scraper";
         $this->ScrapperApiToken = env("ScrapperApiToken", "");
         $this->ScrapperApiEndpoint = env("ScrapperApiEndpoint", "");
         $this->StoreDataSetLimit = env("StoreDataSetLimit", 10);
@@ -58,7 +58,7 @@ class AmazonController extends Controller
         $client->channelData = $client->variables[$channelName];
         $sessionKey = "channel_".$channelId."__client_".$clientId;
         Session::put($sessionKey, "AUTH_OK");
-        
+
         $whitelistValue = "";
         if (isset($client->channelData['Whitelist']) && !empty($client->channelData['Whitelist'])) {
             $whitelistValue = $client->channelData['Whitelist']['data'];
@@ -104,11 +104,11 @@ class AmazonController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-                "categoryUrls": [{
-                    "url": "https://www.amazon.com/s?k='.$keyword.'"
-                }],
+                "startUrls": ["https://www.etsy.com/search?q='.$keyword.'"],
+                "includeDescription": false,
                 "maxItems": 50,
-                "proxyConfiguration": {
+                "endPage": 1,
+                "proxy": {
                     "useApifyProxy": true,
                     "apifyProxyGroups": ["RESIDENTIAL"]
                 },
@@ -196,7 +196,7 @@ class AmazonController extends Controller
         $dumpResponse = json_decode($response);
 
         // basic validations of response
-        if (isset($dumpResponse->error)) {
+        if (isset($dumpResponse['error']) || isset($dumpResponse->error)) {
             return $dumpResponse;
         }
         if (isset($dumpResponse) && !empty($dumpResponse)) {
@@ -219,7 +219,7 @@ class AmazonController extends Controller
         foreach ($dumpResponse as $dump) {
             $severity = "medium";
             foreach ($whitelistValue as $w) {
-                if (stripos($dump->title, $w) != false) {
+                if (stripos($dump->name, $w) != false) {
                     $severity = "low";
                     break;
                 }
@@ -232,11 +232,10 @@ class AmazonController extends Controller
                 'severity' => $severity,
                 'keyword' => $keyword,
                 "url" => $dump->url,
-                "title" => $dump->title,
-                "price" => isset($dump->price) ? $dump->price->currency." ".$dump->price->value : "",
-                "image" => $dump->thumbnailImage,
+                "title" => $dump->name,
+                "price" => $dump->Price,
+                "image" => isset($dump->images[0]) ? $dump->images[0] : "",
                 "seller" => isset($dump->seller) ? $dump->seller->name : "",
-                "brand" => $dump->brand,
             );
             TKO_Ecommerce::create($data);
         }

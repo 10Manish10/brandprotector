@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
-class AmazonController extends Controller
+class AliExpressController extends Controller
 {
     private $channelName;
     private $ScrapperApiToken;
@@ -23,8 +23,8 @@ class AmazonController extends Controller
 
     public function __construct() {
         // $this->middleware('auth');
-        $this->channelName = "amazon";
-        $this->actor = "junglee~free-amazon-product-scraper";
+        $this->channelName = "aliexpress";
+        $this->actor = "epctex~aliexpress-scraper";
         $this->ScrapperApiToken = env("ScrapperApiToken", "");
         $this->ScrapperApiEndpoint = env("ScrapperApiEndpoint", "");
         $this->StoreDataSetLimit = env("StoreDataSetLimit", 10);
@@ -104,13 +104,20 @@ class AmazonController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-                "categoryUrls": [{
-                    "url": "https://www.amazon.com/s?k='.$keyword.'"
-                }],
+                "searchTerms": [
+                    "'.$keyword.'"
+                ],
+                "startUrls": [
+                    "https://www.aliexpress.com"
+                ],
                 "maxItems": 50,
-                "proxyConfiguration": {
-                    "useApifyProxy": true,
-                    "apifyProxyGroups": ["RESIDENTIAL"]
+                "searchInSubcategories": true,
+                "language": "en_US",
+                "includeDescription": false,
+                "maxFeedbacks": 0,
+                "maxQuestions": 0,
+                "proxy": {
+                    "useApifyProxy": true
                 },
                 "detailedInformation": false,
                 "debug": false
@@ -196,7 +203,7 @@ class AmazonController extends Controller
         $dumpResponse = json_decode($response);
 
         // basic validations of response
-        if (isset($dumpResponse->error)) {
+        if (isset($dumpResponse['error']) || isset($dumpResponse->error)) {
             return $dumpResponse;
         }
         if (isset($dumpResponse) && !empty($dumpResponse)) {
@@ -224,6 +231,14 @@ class AmazonController extends Controller
                     break;
                 }
             }
+            $price = "";
+            if (isset($dump->prices[0])) {
+                if (isset($dump->prices[0]->discountPrice)) {
+                    $price = $dump->prices[0]->discountPrice;
+                } else {
+                    $price = $dump->prices[0]->price;
+                }
+            }
             $data = array(
                 "client_id" => $clientId,
                 'channel_id'=> $channelId,
@@ -231,12 +246,11 @@ class AmazonController extends Controller
                 'dataset' => $datasetId,
                 'severity' => $severity,
                 'keyword' => $keyword,
-                "url" => $dump->url,
+                "url" => $dump->link,
                 "title" => $dump->title,
-                "price" => isset($dump->price) ? $dump->price->currency." ".$dump->price->value : "",
-                "image" => $dump->thumbnailImage,
-                "seller" => isset($dump->seller) ? $dump->seller->name : "",
-                "brand" => $dump->brand,
+                "price" => $price,
+                "image" => isset($dump->photos[0]) ? $dump->photos[0] : "",
+                "seller" => isset($dump->store) ? $dump->store->name : "",
             );
             TKO_Ecommerce::create($data);
         }
