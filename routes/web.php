@@ -97,3 +97,6 @@ Route::get('/walmart/create-dataset/{channelId}/{clientId}/{keyword}', 'WalmartC
 Route::get('/walmart/save-data/{channelId}/{clientId}/{keyword}/{datasetId?}', 'WalmartController@saveData')->name('walmart.saveData');
 
 Route::get('/test/{channelId}/{clientId}', 'AmazonController@test')->name('amazon.test');
+
+// Reports
+Route::get('/reports', 'ReportsController@test')->name('reports');

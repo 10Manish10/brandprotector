@@ -110,6 +110,15 @@
                         </a>
                     </li>
                 @endcan
+                <li class="nav-item">
+                    <a href="{{ route("reports") }}" class="nav-link {{ request()->is("admin/reports") || request()->is("admin/reports/*") ? "active" : "" }}">
+                        <i class="fa-fw nav-icon fas fa-table">
+                        </i>
+                        <p>
+                            Reports
+                        </p>
+                    </a>
+                </li>
                 @can('email_template_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.email-templates.index") }}" class="nav-link {{ request()->is("admin/email-templates") || request()->is("admin/email-templates/*") ? "active" : "" }}">
