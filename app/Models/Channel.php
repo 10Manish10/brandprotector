@@ -23,6 +23,9 @@ class Channel extends Model
     protected $fillable = [
         'channel_name',
         'variables',
+        'copyright',
+        'infringement',
+        'dmca',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -37,5 +40,10 @@ class Channel extends Model
     public function subscription_plans()
     {
         return $this->belongsToMany(Subscription::class);
+    }
+
+    public function channelsEmailTemplates()
+    {
+        return $this->belongsToMany(EmailTemplate::class);
     }
 }

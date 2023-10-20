@@ -7,7 +7,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyEmailTemplateRequest;
 use App\Http\Requests\StoreEmailTemplateRequest;
 use App\Http\Requests\UpdateEmailTemplateRequest;
-use App\Models\Client;
+use App\Models\Channel;
 use App\Models\EmailTemplate;
 use Gate;
 use Illuminate\Http\Request;
@@ -22,26 +22,26 @@ class EmailTemplatesController extends Controller
     {
         abort_if(Gate::denies('email_template_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $emailTemplates = EmailTemplate::with(['clients'])->get();
+        $emailTemplates = EmailTemplate::with(['channels'])->get();
 
-        $clients = Client::get();
+        $channels = Channel::get();
 
-        return view('frontend.emailTemplates.index', compact('clients', 'emailTemplates'));
+        return view('frontend.emailTemplates.index', compact('channels', 'emailTemplates'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('email_template_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $clients = Client::pluck('name', 'id');
+        $channels = Channel::pluck('name', 'id');
 
-        return view('frontend.emailTemplates.create', compact('clients'));
+        return view('frontend.emailTemplates.create', compact('channels'));
     }
 
     public function store(StoreEmailTemplateRequest $request)
     {
         $emailTemplate = EmailTemplate::create($request->all());
-        $emailTemplate->clients()->sync($request->input('clients', []));
+        $emailTemplate->channels()->sync($request->input('channels', []));
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $emailTemplate->id]);
         }
@@ -53,17 +53,17 @@ class EmailTemplatesController extends Controller
     {
         abort_if(Gate::denies('email_template_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $clients = Client::pluck('name', 'id');
+        $channels = Channel::pluck('name', 'id');
 
-        $emailTemplate->load('clients');
+        $emailTemplate->load('channels');
 
-        return view('frontend.emailTemplates.edit', compact('clients', 'emailTemplate'));
+        return view('frontend.emailTemplates.edit', compact('channels', 'emailTemplate'));
     }
 
     public function update(UpdateEmailTemplateRequest $request, EmailTemplate $emailTemplate)
     {
         $emailTemplate->update($request->all());
-        $emailTemplate->clients()->sync($request->input('clients', []));
+        $emailTemplate->channels()->sync($request->input('channels', []));
 
         return redirect()->route('frontend.email-templates.index');
     }
@@ -72,7 +72,7 @@ class EmailTemplatesController extends Controller
     {
         abort_if(Gate::denies('email_template_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $emailTemplate->load('clients');
+        $emailTemplate->load('channels');
 
         return view('frontend.emailTemplates.show', compact('emailTemplate'));
     }

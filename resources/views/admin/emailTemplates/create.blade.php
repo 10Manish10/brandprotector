@@ -39,24 +39,23 @@
                 <span class="help-block">{{ trans('cruds.emailTemplate.fields.priority_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="clients">{{ trans('cruds.emailTemplate.fields.clients') }}</label>
+                <label class="required" for="channels">Channel</label>
                 <div style="padding-bottom: 4px">
                     <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
                     <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                 </div>
-                <select class="form-control select2 {{ $errors->has('clients') ? 'is-invalid' : '' }}" name="clients[]" id="clients" multiple required>
-                    @foreach($clients as $id => $client)
-                        <option value="{{ $id }}" {{ in_array($id, old('clients', [])) ? 'selected' : '' }}>{{ $client }}</option>
+                <select class="form-control select2 {{ $errors->has('channels') ? 'is-invalid' : '' }}" name="channels[]" id="channels" multiple required>
+                    @foreach($channels as $id => $client)
+                        <option value="{{ $id }}" {{ in_array($id, old('channels', [])) ? 'selected' : '' }}>{{ $client }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('clients'))
-                    <span class="text-danger">{{ $errors->first('clients') }}</span>
+                @if($errors->has('channels'))
+                    <span class="text-danger">{{ $errors->first('channels') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.emailTemplate.fields.clients_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="from_email">{{ trans('cruds.emailTemplate.fields.from_email') }}</label>
-                <input class="form-control {{ $errors->has('from_email') ? 'is-invalid' : '' }}" type="email" name="from_email" id="from_email" value="{{ old('from_email') }}" required>
+                <input class="form-control {{ $errors->has('from_email') ? 'is-invalid' : '' }}" type="text" name="from_email" id="from_email" value="{{ old('from_email') }}" required>
                 @if($errors->has('from_email'))
                     <span class="text-danger">{{ $errors->first('from_email') }}</span>
                 @endif
@@ -64,7 +63,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="to_email">{{ trans('cruds.emailTemplate.fields.to_email') }}</label>
-                <input class="form-control {{ $errors->has('to_email') ? 'is-invalid' : '' }}" type="email" name="to_email" id="to_email" value="{{ old('to_email') }}" required>
+                <input class="form-control {{ $errors->has('to_email') ? 'is-invalid' : '' }}" type="text" name="to_email" id="to_email" value="{{ old('to_email') }}" required>
                 @if($errors->has('to_email'))
                     <span class="text-danger">{{ $errors->first('to_email') }}</span>
                 @endif

@@ -31,6 +31,9 @@
                         {{ trans('cruds.subscription.fields.plan_amount') }}
                     </th>
                     <th>
+                    Daily API hit limit
+                    </th>
+                    <th>
                         {{ trans('cruds.subscription.fields.role') }}
                     </th>
                     <th>
@@ -39,6 +42,9 @@
                 </tr>
                 <tr>
                     <td>
+                    </td>
+                    <td>
+                        <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
@@ -115,6 +121,7 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'plan_amount', name: 'plan_amount' },
+{ data: 'api_hit_limit', name: 'api_hit_limit' },
 { data: 'role', name: 'roles.title' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

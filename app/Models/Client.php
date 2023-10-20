@@ -56,11 +56,6 @@ class Client extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function clientsEmailTemplates()
-    {
-        return $this->belongsToMany(EmailTemplate::class);
-    }
-
     public function getLogoAttribute()
     {
         $file = $this->getMedia('logo')->last();

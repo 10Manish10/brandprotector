@@ -32,7 +32,7 @@
                             {{ trans('cruds.emailTemplate.fields.priority') }}
                         </th>
                         <th>
-                            {{ trans('cruds.emailTemplate.fields.clients') }}
+                            Channels
                         </th>
                         <th>
                             &nbsp;
@@ -58,7 +58,7 @@
                         <td>
                             <select class="search custom-select">
                                 <option value>{{ trans('global.all') }}</option>
-                                @foreach($clients as $key => $item)
+                                @foreach($channels as $key => $item)
                                     <option value="{{ $item->name }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
@@ -83,7 +83,7 @@
                                 {{ App\Models\EmailTemplate::PRIORITY_RADIO[$emailTemplate->priority] ?? '' }}
                             </td>
                             <td>
-                                @foreach($emailTemplate->clients as $key => $item)
+                                @foreach($emailTemplate->channels as $key => $item)
                                     <span class="badge badge-info">{{ $item->name }}</span>
                                 @endforeach
                             </td>

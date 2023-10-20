@@ -189,8 +189,6 @@ class ClientsController extends Controller
     {
         abort_if(Gate::denies('client_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $client->load('clientsEmailTemplates');
-
         return view('admin.clients.show', compact('client'));
     }
 

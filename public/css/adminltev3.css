@@ -20019,7 +20019,7 @@
   /* .dark-mode .custom-control-label::before, */
   .dark-mode .input-group-text,
   .dark-mode .dropzone {
-    background-color: #181821 !important;
+    background-color: #282836 !important;
     color: #fff;
   }
   .dark-mode input:-webkit-autofill,
@@ -33270,16 +33270,16 @@
   }
   
   .dark-mode .select2-selection {
-    background-color: #1B1B24;
+    background-color: #282836;
     border-color: #6c757d;
   }
   
   .dark-mode .select2-container--disabled .select2-selection--single {
-    background-color: #22222F;
+    background-color: #282836;
   }
   
   .dark-mode .select2-selection--single {
-    background-color: #1B1B24;
+    background-color: #282836;
     border-color: #6c757d;
   }
   

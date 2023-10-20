@@ -24,6 +24,7 @@ class Subscription extends Model
         'name',
         'plan_amount',
         'features',
+        'api_hit_limit',
         'created_at',
         'updated_at',
         'deleted_at',

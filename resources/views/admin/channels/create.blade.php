@@ -37,6 +37,27 @@
                 @endif
             </div>
             <div class="form-group">
+                <label class="" for="copyright">Copyright</label>
+                <input class="form-control {{ $errors->has('copyright') ? 'is-invalid' : '' }}" type="email" placeholder="Email" name="copyright" id="copyright" value="{{ old('copyright', '') }}">
+                @if($errors->has('copyright'))
+                    <span class="text-danger">{{ $errors->first('copyright') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label class="" for="infringement">Infringement</label>
+                <input class="form-control {{ $errors->has('infringement') ? 'is-invalid' : '' }}" type="email" placeholder="Email" name="infringement" id="infringement" value="{{ old('infringement', '') }}">
+                @if($errors->has('infringement'))
+                    <span class="text-danger">{{ $errors->first('infringement') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label class="" for="dmca">DMCA</label>
+                <input class="form-control {{ $errors->has('dmca') ? 'is-invalid' : '' }}" type="url" placeholder="URL" name="dmca" id="dmca" value="{{ old('dmca', '') }}">
+                @if($errors->has('dmca'))
+                    <span class="text-danger">{{ $errors->first('dmca') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <label class="required" for="">Channel Variables</label>

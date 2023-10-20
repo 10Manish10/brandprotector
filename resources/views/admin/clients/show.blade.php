@@ -121,11 +121,6 @@
             </a>
         </li>
     </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="clients_email_templates">
-            @includeIf('admin.clients.relationships.clientsEmailTemplates', ['emailTemplates' => $client->clientsEmailTemplates])
-        </div>
-    </div>
 </div>
 
 @endsection

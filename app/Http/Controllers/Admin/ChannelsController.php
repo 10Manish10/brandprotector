@@ -136,6 +136,8 @@ class ChannelsController extends Controller
 
         $channel->load('subscription_plans');
 
+        $channel->load('channelsEmailTemplates');
+
         return view('admin.channels.show', compact('channel'));
     }
 

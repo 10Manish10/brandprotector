@@ -27,6 +27,13 @@
                 <span class="help-block">{{ trans('cruds.subscription.fields.plan_amount_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="api_hit_limit">Daily API hit limit</label>
+                <input class="form-control {{ $errors->has('api_hit_limit') ? 'is-invalid' : '' }}" type="number" name="api_hit_limit" id="api_hit_limit" value="{{ old('api_hit_limit', $subscription->api_hit_limit) }}" step="1" min="0" max="100">
+                @if($errors->has('api_hit_limit'))
+                    <span class="text-danger">{{ $errors->first('api_hit_limit') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
                 <label for="features">{{ trans('cruds.subscription.fields.features') }}</label>
                 <textarea class="form-control {{ $errors->has('features') ? 'is-invalid' : '' }}" name="features" id="features">{{ old('features', $subscription->features) }}</textarea>
                 @if($errors->has('features'))

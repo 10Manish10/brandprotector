@@ -51,8 +51,8 @@ class EmailTemplate extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function clients()
+    public function channels()
     {
-        return $this->belongsToMany(Client::class);
+        return $this->belongsToMany(Channel::class);
     }
 }

@@ -86,9 +86,7 @@ class ClientsController extends Controller
     {
         abort_if(Gate::denies('client_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $client->load('channels', 'clientsEmailTemplates');
-
-        return view('frontend.clients.show', compact('client'));
+        return view('frontend.clients.show');
     }
 
     public function destroy(Client $client)
