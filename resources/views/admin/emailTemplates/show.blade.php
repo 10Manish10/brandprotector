@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="card-footer" style="background: #fff !important;color:#000 !important;border-top: 1px solid #f2f2f2;">
-                    <button class="button btn btn-info">Send</button>
+                    <button type="submit" class="button btn btn-info">Send</button>
                 </div>
             </div>
         </div>
