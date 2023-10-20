@@ -48921,5 +48921,7 @@
   .dark-mode .border-dark {
     border-color: #4b545c !important;
   }
-  
+  .justify-center {
+    justify-content: center !important;
+  }
   /*# sourceMappingURL=adminlte.css.map */

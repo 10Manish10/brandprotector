@@ -100,3 +100,6 @@ Route::get('/test/{channelId}/{clientId}', 'AmazonController@test')->name('amazo
 
 // Reports
 Route::get('/reports', 'ReportsController@test')->name('reports');
+
+// Subscription Plans
+Route::get('/plans', 'Plans@test')->name('plans');
