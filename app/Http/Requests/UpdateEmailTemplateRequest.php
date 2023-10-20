@@ -29,10 +29,10 @@ class UpdateEmailTemplateRequest extends FormRequest
             'priority' => [
                 'required',
             ],
-            'clients.*' => [
+            'channels.*' => [
                 'integer',
             ],
-            'clients' => [
+            'channels' => [
                 'required',
                 'array',
             ],

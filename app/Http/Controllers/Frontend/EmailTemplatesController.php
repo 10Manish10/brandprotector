@@ -33,7 +33,7 @@ class EmailTemplatesController extends Controller
     {
         abort_if(Gate::denies('email_template_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $channels = Channel::pluck('name', 'id');
+        $channels = Channel::pluck('channel_name', 'id');
 
         return view('frontend.emailTemplates.create', compact('channels'));
     }
@@ -53,7 +53,7 @@ class EmailTemplatesController extends Controller
     {
         abort_if(Gate::denies('email_template_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $channels = Channel::pluck('name', 'id');
+        $channels = Channel::pluck('channel_name', 'id');
 
         $emailTemplate->load('channels');
 
