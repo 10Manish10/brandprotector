@@ -58,48 +58,51 @@
         </div>
     </div>
     <div class="card-body">
+        <form method="POST" action="{{ route("sendInfringmentMail") }}">
+            @csrf
+            <div class="emailTemplate" style="background: #fff !important;color:#000 !important;padding:10px;">
+                <div class="card" style="background: #fff !important;color:#000 !important;box-shadow: 0 0 25px #8f83837a;">
+                    <div class="card-header" style="background: #f2f2f2 !important;color:#041e49 !important;">
+                        <span><b>New Message</b></span>
+                    </div>
 
-        <div class="emailTemplate" style="background: #fff !important;color:#000 !important;padding:10px;">
-            <div class="card" style="background: #fff !important;color:#000 !important;box-shadow: 0 0 25px #8f83837a;">
-                <div class="card-header" style="background: #f2f2f2 !important;color:#041e49 !important;">
-                    <span><b>New Message</b></span>
-                </div>
-
-                <?php
-                    if (preg_match('/{{(.*?)}}/', $emailTemplate->from_email)) {
-                        $from = "";
-                    } else {
-                        $from = $emailTemplate->from_email;
-                    }
-                    if (preg_match('/{{(.*?)}}/', $emailTemplate->to_email)) {
-                        $to = "";
-                    } else {
-                        $to = $emailTemplate->from_email;
-                    }
-                    $body = preg_replace('/\{\{([^}]+)\}\}/', '<input type="text" class="bodyinput" name="$1" placeholder="$1" />', $emailTemplate->email_body);
-                ?>
-                <div class="card-body" style="background: #fff !important;color:#000 !important;">
-                    <div class="fg">
-                        <span>From: </span>
-                        <input type="text" value="{{$from}}" placeholder="Sender" @if ($from != "") disabled="disabled" @endif>
+                    <?php
+                        if (preg_match('/{{(.*?)}}/', $emailTemplate->from_email)) {
+                            $from = "";
+                        } else {
+                            $from = $emailTemplate->from_email;
+                        }
+                        if (preg_match('/{{(.*?)}}/', $emailTemplate->to_email)) {
+                            $to = "";
+                        } else {
+                            $to = $emailTemplate->from_email;
+                        }
+                        $body = preg_replace('/\{\{([^}]+)\}\}/', '<input type="text" class="bodyinput" name="$1" placeholder="$1" required="required" />', $emailTemplate->email_body);
+                    ?>
+                    <input type="hidden" name="body" value="{{$emailTemplate->email_body}}">
+                    <div class="card-body" style="background: #fff !important;color:#000 !important;">
+                        <div class="fg">
+                            <span>From: </span>
+                            <input type="text" value="{{$from}}" name="from" placeholder="Sender" required="required" @if ($from != "") disabled="disabled" @endif>
+                        </div>
+                        <div class="fg">
+                            <span>To: </span>
+                            <input type="text" value="{{$to}}" name="to" placeholder="Recipient" required="required" @if ($to != "") disabled="disabled" @endif>
+                        </div>
+                        <div class="fg">
+                            <span>Subject: </span>
+                            <input type="text" value="{{$emailTemplate->subject}}" name="subject" required="required" placeholder="Subject">
+                        </div>
+                        <div class="emailBody">
+                            {!! $body !!}
+                        </div>
                     </div>
-                    <div class="fg">
-                        <span>To: </span>
-                        <input type="text" value="{{$to}}" placeholder="Recipient" @if ($to != "") disabled="disabled" @endif>
+                    <div class="card-footer" style="background: #fff !important;color:#000 !important;border-top: 1px solid #f2f2f2;">
+                        <button type="submit" class="button btn btn-info">Send</button>
                     </div>
-                    <div class="fg">
-                        <span>Subject: </span>
-                        <input type="text" value="{{$emailTemplate->subject}}" placeholder="Subject">
-                    </div>
-                    <div class="emailBody">
-                        {!! $body !!}
-                    </div>
-                </div>
-                <div class="card-footer" style="background: #fff !important;color:#000 !important;border-top: 1px solid #f2f2f2;">
-                    <button type="submit" class="button btn btn-info">Send</button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
