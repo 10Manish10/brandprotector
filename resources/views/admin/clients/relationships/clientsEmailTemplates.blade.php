@@ -31,7 +31,7 @@
                                 {{ trans('cruds.emailTemplate.fields.priority') }}
                             </th>
                             <th>
-                                {{ trans('cruds.emailTemplate.fields.clients') }}
+                                {{ trans('cruds.emailTemplate.fields.channels') }}
                             </th>
                             <th>
                                 &nbsp;
@@ -54,7 +54,7 @@
                                     {{ App\Models\EmailTemplate::PRIORITY_RADIO[$emailTemplate->priority] ?? '' }}
                                 </td>
                                 <td>
-                                    @foreach($emailTemplate->clients as $key => $item)
+                                    @foreach($emailTemplate->channels as $key => $item)
                                         <span class="badge badge-info">{{ $item->name }}</span>
                                     @endforeach
                                 </td>

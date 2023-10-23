@@ -159,6 +159,49 @@ $(function () {
 			}
 		})
     })
+
+    $(document).on("click", "#refresh", function() {
+        let client = $("#clientsSelect option:selected").val()
+        let channel = $("#channelsSelect option:selected").val()
+        let cname = $("#channelsSelect option:selected").data("cname")
+        let keyword = $("#keywordsSelect option:selected").val()
+        if (!(client && channel && keyword && cname)) {
+            return false
+        }
+        if (client == "" && channel == "" && keyword == "" && cname == "") {
+            return false
+        }
+        $.ajax({
+			method: "POST",
+			url: `/reports/${client}/${channel}/${cname}/${keyword}`,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+			success: (x) => {
+                console.log(x)
+                if (x.status == "created") {
+                    alert("Your request is added to Queue, please wait for sometime for data to crawl. Thanks!")
+                }
+                if (x.status == "limit_exceed") {
+                    alert("Your daily crawl limit is exceeded, upgrade your plan or retry tomorrow. Thanks!")
+                }
+                if (x.status == "payment_due") {
+                    alert("Your payment is due, please clear your payments then try again. Thanks!")
+                }
+                if (x.status == "invalid_client") {
+                    alert(`Selected client not found or is inactive, please contact administrator. Thanks!`)
+                }
+                if (x.status == "invalid_channel") {
+                    alert(`Selected channel not found or is inactive, please contact administrator. Thanks!`)
+                }
+                // if (x.status == "pending") {
+                // }
+			},
+			error: (e) => {
+				console.error(e)
+			}
+		})
+    })
 });
 </script>
 @endsection

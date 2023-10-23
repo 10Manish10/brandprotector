@@ -54,16 +54,17 @@
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
-            <p>Email Template</p>
+            <p>Email Template - {{$emailTemplate->channels[0]->channel_name}}</p>
         </div>
     </div>
     <div class="card-body">
         <form method="POST" action="{{ route("sendInfringmentMail") }}">
             @csrf
+            <input type="hidden" name="email_template_id" value="{{$emailTemplate->id}}">
             <div class="emailTemplate" style="background: #fff !important;color:#000 !important;padding:10px;">
                 <div class="card" style="background: #fff !important;color:#000 !important;box-shadow: 0 0 25px #8f83837a;">
                     <div class="card-header" style="background: #f2f2f2 !important;color:#041e49 !important;">
-                        <span><b>New Message</b></span>
+                        <span><b>New Message - {{$emailTemplate->channels[0]->channel_name}}</b></span>
                     </div>
 
                     <?php

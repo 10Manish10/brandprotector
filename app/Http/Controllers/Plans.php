@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Subscription;
 
 use Illuminate\Http\Request;
-use Symfony\Component\Mime\Part\HtmlPart;
 
 use Mail;
 
@@ -33,16 +32,13 @@ class Plans extends Controller
             return isset($data[$variable]) ? $data[$variable] : " ";
         }, $data['body']);
         $data['body'] = $result;
-        // dd($data);
         
-        Mail::send([], [], function($msg) use ($data) {
-            $textPart = new HtmlPart($data['body']);
-            $msg->to([$data['to']])
-                ->from($address = $data['from'], $name = '')
-                ->subject($data['subject'])
-                ->setBody($textPart, 'text/html');
+        Mail::html($data['body'], function($message) use ($data) {
+            $message->from($data['from'], '');
+            $message->replyTo($data['from']);
+            $message->to($data['to']);
+            $message->subject($data['subject']);
         });
-
-        return redirect()->route('admin.subscriptions.index');
+        return redirect()->route('admin.email-templates.show', ['email_template' => $data['email_template_id']]);
     }
 }

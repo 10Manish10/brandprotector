@@ -43,6 +43,8 @@ class Client extends Model implements HasMedia
         'variables',
         'subplan',
         'channels',
+        'payment',
+        'payment_date'
     ];
 
     protected function serializeDate(DateTimeInterface $date)

@@ -4,6 +4,7 @@
 <style>
     .wraps1 {
         padding: 20px;
+        margin-bottom: 50px;
     }
     .wraps2 {
         border-radius: 30px;
@@ -110,7 +111,7 @@
                 </div>
                 @endforeach
             </div>
-            <br><br><br>
+            <br><br>
         </div>
     </div>
 </div>
