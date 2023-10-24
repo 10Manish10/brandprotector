@@ -10,7 +10,7 @@ use App\Models\Channel;
 use App\Models\Datasets;
 use App\Models\Subscription;
 use DB;
-
+use Gate;
 use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\EbayController;
@@ -35,6 +35,7 @@ class ReportsController extends Controller
     }
 
     public function test() {
+        abort_if(Gate::denies('reports_get'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $clients = Client::all();
         $channels = Channel::all();
         $data = [
@@ -46,6 +47,7 @@ class ReportsController extends Controller
     }
 
     public function getReport(Request $request, $clientId, $channelId, $cname, $keyword) {
+        abort_if(Gate::denies('reports_get'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $dates = $request->query('date');
         $data = [];
         $where = [
@@ -121,6 +123,7 @@ class ReportsController extends Controller
     }
 
     public function createReport($clientId, $channelId, $cname, $keyword) {
+        abort_if(Gate::denies('reports_post'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $data = ["status" => "pending"];
         $status = $this->authReport($clientId);
         if (in_array($status, ["payment_due", "limit_exceed", "invalid_client"])) {

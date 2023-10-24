@@ -64,14 +64,18 @@
             </div>
             <div class="col-2">
                 <div class="row">
-                    <div class="col-6">
-                        <label>&nbsp;</label>
-                        <button style="display:block;width:100%;" type="button" id="view" class="button btn btn-primary">View Data</button>
-                    </div>
-                    <div class="col-6">
-                        <label>&nbsp;</label>
-                        <button style="display:block;width:100%;" type="button" id="refresh" class="button btn btn-danger">Refresh Data</button>
-                    </div>
+                    @can('reports_get')
+                        <div class="col-6">
+                            <label>&nbsp;</label>
+                            <button style="display:block;width:100%;" type="button" id="view" class="button btn btn-primary">View Data</button>
+                        </div>
+                    @endcan
+                    @can('reports_post')
+                        <div class="col-6">
+                            <label>&nbsp;</label>
+                            <button style="display:block;width:100%;" type="button" id="refresh" class="button btn btn-danger">Refresh Data</button>
+                        </div>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -129,6 +133,7 @@ $(function () {
         })
 
     })
+    @can('reports_get')
     $(document).on("click", "#view", function() {
         let client = $("#clientsSelect option:selected").val()
         let channel = $("#channelsSelect option:selected").val()
@@ -172,7 +177,8 @@ $(function () {
 			}
 		})
     })
-
+    @endcan
+    @can('reports_post')
     $(document).on("click", "#refresh", function() {
         let client = $("#clientsSelect option:selected").val()
         let channel = $("#channelsSelect option:selected").val()
@@ -215,6 +221,7 @@ $(function () {
 			}
 		})
     })
+    @endcan
     $('#date-range').daterangepicker();
     $('#date-blank').click(function() {
         $('#date-range').val('')

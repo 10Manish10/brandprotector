@@ -110,15 +110,17 @@
                         </a>
                     </li>
                 @endcan
-                <li class="nav-item">
-                    <a href="{{ route("reports") }}" class="nav-link {{ request()->is("reports") || request()->is("reports/*") ? "active" : "" }}">
-                        <i class="fa-fw nav-icon fas fa-table">
-                        </i>
-                        <p>
-                            Reports
-                        </p>
-                    </a>
-                </li>
+                @can('reports_get')
+                    <li class="nav-item">
+                        <a href="{{ route("reports") }}" class="nav-link {{ request()->is("reports") || request()->is("reports/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-table">
+                            </i>
+                            <p>
+                                Reports
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('email_template_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.email-templates.index") }}" class="nav-link {{ request()->is("admin/email-templates") || request()->is("admin/email-templates/*") ? "active" : "" }}">
