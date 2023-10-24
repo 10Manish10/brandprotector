@@ -21,7 +21,7 @@
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th style="display:none;">
                         {{ trans('cruds.client.fields.id') }}
                     </th>
                     <th>
@@ -43,13 +43,13 @@
                         {{ trans('cruds.client.fields.document_proof') }}
                     </th>
                     <th>
-                        &nbsp;
+                        Actions
                     </th>
                 </tr>
                 <tr>
                     <td>
                     </td>
-                    <td>
+                    <td style="display:none;">
                         <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
@@ -123,7 +123,7 @@
     ajax: "{{ route('admin.clients.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
+    { data: 'id', name: 'id', visible:false },
 { data: 'name', name: 'name' },
 { data: 'email', name: 'email' },
 { data: 'logo', name: 'logo', sortable: false, searchable: false },

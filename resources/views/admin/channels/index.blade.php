@@ -21,7 +21,7 @@
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th style="display:none;">
                         {{ trans('cruds.channel.fields.id') }}
                     </th>
                     <th>
@@ -31,13 +31,13 @@
                         {{ trans('cruds.channel.fields.subscription_plan') }}
                     </th>
                     <th>
-                        &nbsp;
+                        Actions
                     </th>
                 </tr>
                 <tr>
                     <td>
                     </td>
-                    <td>
+                    <td style="display:none;">
                         <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
@@ -106,7 +106,7 @@
     ajax: "{{ route('admin.channels.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
+{ data: 'id', name: 'id', visible: false },
 { data: 'channel_name', name: 'channel_name' },
 { data: 'subscription_plan', name: 'subscription_plans.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }

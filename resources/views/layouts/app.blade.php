@@ -13,6 +13,8 @@
     <link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
     @yield('styles')
+    <link rel="icon" href="https://cdn.shopify.com/s/files/1/0316/5378/9834/files/favicon.png?v=1698142605" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.0.5/daterangepicker.css">
 </head>
 
 <body class="header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden login-page">
@@ -92,6 +94,7 @@
         document.body.dispatchEvent(event);
       }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.0.5/daterangepicker.js"></script>
 </body>
 
 </html>

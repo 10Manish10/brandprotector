@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subscription;
+use App\Models\EmailLogs;
 
 use Illuminate\Http\Request;
 
@@ -32,13 +33,29 @@ class Plans extends Controller
             return isset($data[$variable]) ? $data[$variable] : " ";
         }, $data['body']);
         $data['body'] = $result;
-        
-        Mail::html($data['body'], function($message) use ($data) {
-            $message->from($data['from'], '');
-            $message->replyTo($data['from']);
-            $message->to($data['to']);
-            $message->subject($data['subject']);
-        });
+
+        $insert = [
+            'template_id' => $data['email_template_id'],
+            'channel' => $data['channel'],
+            'from' => $data['from'],
+            'to' => $data['to'],
+            'subject' => $data['subject'],
+            'email_body' => $data['body'],
+            'priority' => $data['priority'],
+            'status' => 'PENDING'
+        ];
+        try {
+            Mail::html($data['body'], function($message) use ($data) {
+                $message->from($data['from'], '');
+                $message->replyTo($data['from']);
+                $message->to($data['to']);
+                $message->subject($data['subject']);
+            });
+            $insert['status'] = "SUCCESS";
+        } catch (Exception $e) {
+            $insert['status'] = "ERROR";
+        }
+        EmailLogs::create($insert);
         return redirect()->route('admin.email-templates.show', ['email_template' => $data['email_template_id']]);
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyEmailTemplateRequest;
 use App\Http\Requests\StoreEmailTemplateRequest;
 use App\Http\Requests\UpdateEmailTemplateRequest;
 use App\Models\Channel;
+use App\Models\EmailLogs;
 use App\Models\EmailTemplate;
 use Gate;
 use Illuminate\Http\Request;
@@ -73,6 +74,10 @@ class EmailTemplatesController extends Controller
         abort_if(Gate::denies('email_template_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $emailTemplate->load('channels');
+
+        $logs = EmailLogs::where('template_id', $emailTemplate->id)->get()->toArray();
+
+        $emailTemplate['logs'] = $logs;
 
         return view('admin.emailTemplates.show', compact('emailTemplate'));
     }

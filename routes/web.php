@@ -100,8 +100,8 @@ Route::get('/test/{channelId}/{clientId}', 'AmazonController@test')->name('amazo
 
 // Reports
 Route::get('/reports', 'ReportsController@test')->name('reports');
-// Route::get('/reports/{clientId}/{channelId}/{cname}/{keyword}', 'ReportsController@getReport')->name('reports.getReport');
-Route::get('/reports/{clientId}/{channelId}/{cname}/{keyword}', 'ReportsController@createReport')->name('reports.createReport');
+Route::get('/reports/{clientId}/{channelId}/{cname}/{keyword}', 'ReportsController@getReport')->name('reports.getReport');
+Route::post('/reports/{clientId}/{channelId}/{cname}/{keyword}', 'ReportsController@createReport')->name('reports.createReport');
 
 // Subscription Plans
 Route::get('/plans', 'Plans@test')->name('plans');

@@ -61,6 +61,8 @@
         <form method="POST" action="{{ route("sendInfringmentMail") }}">
             @csrf
             <input type="hidden" name="email_template_id" value="{{$emailTemplate->id}}">
+            <input type="hidden" name="priority" value="{{$emailTemplate->priority}}">
+            <input type="hidden" name="channel" value="{{$emailTemplate->channels[0]->channel_name}}">
             <div class="emailTemplate" style="background: #fff !important;color:#000 !important;padding:10px;">
                 <div class="card" style="background: #fff !important;color:#000 !important;box-shadow: 0 0 25px #8f83837a;">
                     <div class="card-header" style="background: #f2f2f2 !important;color:#041e49 !important;">
@@ -84,11 +86,11 @@
                     <div class="card-body" style="background: #fff !important;color:#000 !important;">
                         <div class="fg">
                             <span>From: </span>
-                            <input type="text" value="{{$from}}" name="from" placeholder="Sender" required="required" @if ($from != "") disabled="disabled" @endif>
+                            <input type="text" value="{{$from}}" name="from" placeholder="Sender" required="required" @if ($from != "") readonly @endif>
                         </div>
                         <div class="fg">
                             <span>To: </span>
-                            <input type="text" value="{{$to}}" name="to" placeholder="Recipient" required="required" @if ($to != "") disabled="disabled" @endif>
+                            <input type="text" value="{{$to}}" name="to" placeholder="Recipient" required="required" @if ($to != "") readonly @endif>
                         </div>
                         <div class="fg">
                             <span>Subject: </span>
@@ -104,6 +106,48 @@
                 </div>
             </div>
         </form>
+        <hr><br>
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Email Logs</h5>
+                @if (count($emailTemplate['logs']) > 0)
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>S. No</th>
+                                <th>Channel</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Subject</th>
+                                <th>Body</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $ix = 1; ?>
+                            @foreach ($emailTemplate['logs'] as $log)
+                            <tr>
+                                <td>{{$ix}}</td>
+                                <td>{{$log['channel']}}</td>
+                                <td>{{$log['from']}}</td>
+                                <td>{{$log['to']}}</td>
+                                <td>{{$log['subject']}}</td>
+                                <td>{{ substr($log['email_body'], 0, 70) }}...</td>
+                                <td>{{$log['priority']}}</td>
+                                <td>{{$log['status']}}</td>
+                                <td>{{$log['created_at']}}</td>
+                            </tr>
+                            <?php $ix++; ?>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p>No data available in logs</p>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 

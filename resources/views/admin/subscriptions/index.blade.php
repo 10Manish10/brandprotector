@@ -24,7 +24,7 @@
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th style="display:none;">
                         {{ trans('cruds.subscription.fields.id') }}
                     </th>
                     <th>
@@ -40,13 +40,13 @@
                         {{ trans('cruds.subscription.fields.role') }}
                     </th>
                     <th>
-                        &nbsp;
+                        Actions
                     </th>
                 </tr>
                 <tr>
                     <td>
                     </td>
-                    <td>
+                    <td style="display:none;">
                         <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
@@ -121,7 +121,7 @@
     ajax: "{{ route('admin.subscriptions.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
+{ data: 'id', name: 'id', visible: false },
 { data: 'name', name: 'name' },
 { data: 'plan_amount', name: 'plan_amount' },
 { data: 'api_hit_limit', name: 'api_hit_limit' },

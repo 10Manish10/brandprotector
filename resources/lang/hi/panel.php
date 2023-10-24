@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'site_title' => 'Brand Protector',
+    'site_title' => 'Brand Protection Enforcement',
 
 ];

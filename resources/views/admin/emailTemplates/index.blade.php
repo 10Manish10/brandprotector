@@ -22,7 +22,7 @@
                         <th width="10">
 
                         </th>
-                        <th>
+                        <th style="display:none;">
                             {{ trans('cruds.emailTemplate.fields.id') }}
                         </th>
                         <th>
@@ -35,13 +35,13 @@
                             Channels
                         </th>
                         <th>
-                            &nbsp;
+                            Actions
                         </th>
                     </tr>
                     <tr>
                         <td>
                         </td>
-                        <td>
+                        <td style="display:none;">
                             <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
@@ -59,7 +59,7 @@
                             <select class="search custom-select">
                                 <option value>{{ trans('global.all') }}</option>
                                 @foreach($channels as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    <option value="{{ $item->channel_name }}">{{ $item->channel_name }}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -73,7 +73,7 @@
                             <td>
 
                             </td>
-                            <td>
+                            <td style="display:none;">
                                 {{ $emailTemplate->id ?? '' }}
                             </td>
                             <td>
@@ -84,7 +84,7 @@
                             </td>
                             <td>
                                 @foreach($emailTemplate->channels as $key => $item)
-                                    <span class="badge badge-info">{{ $item->name }}</span>
+                                    <span class="badge badge-info">{{ $item->channel_name }}</span>
                                 @endforeach
                             </td>
                             <td>
@@ -162,6 +162,8 @@
     pageLength: 10,
   });
   let table = $('.datatable-EmailTemplate:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+//   table.column(1).visible(false);
+//   table.columns.adjust()
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

@@ -13,7 +13,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body login-card-body">
-                    <img src="https://cdn.shopify.com/s/files/1/0631/3410/5829/files/logo.png?v=1690990710" alt="Brand Protector" style="height:80px;margin-bottom:15px;display:block;margin-left:auto;margin-right:auto;">
+                    <img src="https://cdn.shopify.com/s/files/1/0631/3410/5829/files/logo.png?v=1690990710" alt="Brand Protection Enforcement" style="height:80px;margin-bottom:15px;display:block;margin-left:auto;margin-right:auto;">
                         <p class="login-box-msg">{{ trans('global.register') }}</p>
                         <form method="POST" action="{{ route('register') }}">
                             {{ csrf_field() }}

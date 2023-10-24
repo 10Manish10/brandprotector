@@ -14,9 +14,19 @@
 
     <div class="card-body">
         <div class="row">
-            <div class="col-8">
+            <div class="col-10">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Select Date</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-calendar"></i></span></div>
+                                <input type="text" class="form-control" name="date-range" id="date-range" readonly>
+                                <div id="date-blank" class="input-group-append"><span class="input-group-text"><i class="fas fa-backspace"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
                         <div class="form-group">
                             <label>Select Client</label>
                             <select id="clientsSelect" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
@@ -31,7 +41,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
                             <label>Select Channel</label>
                             <select id="channelsSelect" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
@@ -42,7 +52,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
                             <label>Select Keyword</label>
                             <select id="keywordsSelect" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
@@ -52,17 +62,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <label>&nbsp;</label>
                         <button style="display:block;width:100%;" type="button" id="view" class="button btn btn-primary">View Data</button>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <label>&nbsp;</label>
                         <button style="display:block;width:100%;" type="button" id="refresh" class="button btn btn-danger">Refresh Data</button>
                     </div>
-                    <div class="col-4"></div>
                 </div>
             </div>
         </div>
@@ -135,6 +144,10 @@ $(function () {
         $.ajax({
 			method: "GET",
 			url: `/reports/${client}/${channel}/${cname}/${keyword}`,
+            type: "GET",
+            data: {
+                date: $("#date-range").val()
+            },
 			success: (x) => {
                 dt.clear().draw()
                 if (x.length > 0) {
@@ -179,7 +192,7 @@ $(function () {
             },
 			success: (x) => {
                 console.log(x)
-                if (x.status == "created") {
+                if (x.status == "success") {
                     alert("Your request is added to Queue, please wait for sometime for data to crawl. Thanks!")
                 }
                 if (x.status == "limit_exceed") {
@@ -201,6 +214,10 @@ $(function () {
 				console.error(e)
 			}
 		})
+    })
+    $('#date-range').daterangepicker();
+    $('#date-blank').click(function() {
+        $('#date-range').val('')
     })
 });
 </script>

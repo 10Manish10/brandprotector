@@ -45,13 +45,28 @@ class ReportsController extends Controller
         return view('reports', compact('data'));
     }
 
-    public function getReport($clientId, $channelId, $cname, $keyword) {
+    public function getReport(Request $request, $clientId, $channelId, $cname, $keyword) {
+        $dates = $request->query('date');
         $data = [];
         $where = [
-            'client_id' => $clientId,
-            'channel_id' => $channelId,
-            'keyword' => $keyword
+            ['client_id', $clientId],
+            ['channel_id', $channelId],
+            ['keyword', $keyword]
         ];
+        if ($dates != "") {
+            $dateRangeParts = explode(' - ', $dates);
+            if (count($dateRangeParts) === 2) {
+                $fromDate = date_create_from_format('m/d/Y', $dateRangeParts[0]);
+                $toDate = date_create_from_format('m/d/Y', $dateRangeParts[1]);
+                date_time_set($fromDate, 0, 0, 0);
+                date_time_set($toDate, 23, 59, 59);
+                $from = date_format($fromDate, 'Y-m-d H:i:s');
+                $to = date_format($toDate, 'Y-m-d H:i:s');
+                $where[] = ['created_at', '>=', $from];
+                $where[] = ['created_at', '<=', $to];
+            }
+        }
+        // DB::connection()->enableQueryLog();
         $cname = strtolower($cname);
         $cname = str_replace(' ', '_', $cname);
         switch ($cname) {
@@ -74,6 +89,8 @@ class ReportsController extends Controller
             default:
                 $data = [];
         }
+        // $queries = DB::getQueryLog();
+        // return response()->json(['query' => $queries]);
         return response()->json($data);
     }
 
