@@ -111,7 +111,7 @@
                     </li>
                 @endcan
                 <li class="nav-item">
-                    <a href="{{ route("reports") }}" class="nav-link {{ request()->is("admin/reports") || request()->is("admin/reports/*") ? "active" : "" }}">
+                    <a href="{{ route("reports") }}" class="nav-link {{ request()->is("reports") || request()->is("reports/*") ? "active" : "" }}">
                         <i class="fa-fw nav-icon fas fa-table">
                         </i>
                         <p>
@@ -140,6 +140,14 @@
                             <p>
                                 {{ trans('cruds.subscription.title') }}
                             </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('user_management_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.crons.index") }}" class="nav-link {{ request()->is("admin/crons") || request()->is("admin/crons/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon far fa-clock"></i>
+                            <p>Cron Jobs</p>
                         </a>
                     </li>
                 @endcan

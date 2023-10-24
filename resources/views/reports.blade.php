@@ -79,6 +79,7 @@
         <table class="table table-bordered table-striped table-hover datatable datatable-Reports" id="mainTable">
             <thead>
                 <tr>
+                    <th>Created At</th>
                     <th>Dataset</th>
                     <th>Severity</th>
                     <th>Keyword</th>
@@ -88,7 +89,6 @@
                     <th>Image</th>
                     <th>Seller</th>
                     <th>Brand</th>
-                    <th>Created At</th>
                 </tr>
             </thead>
             <tbody></tbody>

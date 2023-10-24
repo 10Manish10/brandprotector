@@ -49,6 +49,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Subscription
     Route::delete('subscriptions/destroy', 'SubscriptionController@massDestroy')->name('subscriptions.massDestroy');
     Route::resource('subscriptions', 'SubscriptionController');
+
+    // Cron Jobs
+    Route::delete('crons/destroy', 'CronController@massDestroy')->name('crons.massDestroy');
+    Route::resource('crons', 'CronController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function () {
     // Change password
