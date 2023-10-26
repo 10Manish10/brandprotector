@@ -44,6 +44,7 @@ class Plans extends Controller
             'priority' => $data['priority'],
             'status' => 'PENDING'
         ];
+        // dd([$data, $insert]);
         try {
             Mail::html($data['body'], function($message) use ($data) {
                 $message->from($data['from'], '');

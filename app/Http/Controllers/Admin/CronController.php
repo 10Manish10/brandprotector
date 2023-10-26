@@ -83,3 +83,16 @@ class CronController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }
+
+
+// TODO:
+// setup crons, with sending emails of reports with attachment
+// add 1-2 graphs in dashboard
+
+// zavya
+// hide swatch on grid - done
+// hp - shop by price bottom margin fix - done
+// increase header logo size only on pdp in mweb (col-3 class) - done
+// hp - fix waypoint infinite scroll - done
+// start video from beginning on all events on pdp images (https://www.zavya.co/collections/all/products/yellow-solitaire-box-chain-gold-plated-925-sterling-silver-pendant) - done
+// add top round icons, main banner, shop by color, shop by price on collection page (static) - same as homepage

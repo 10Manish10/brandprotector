@@ -1,17 +1,19 @@
 @extends('layouts.admin')
 @section('content')
-@can('subscription_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
+<div style="margin-bottom: 10px;" class="row">
+    <div class="col-lg-12">
+            @can('subscription_access')
             <a class="btn btn-warning" href="{{ route('plans') }}">
                 View Plans
             </a>
-            <a class="btn btn-success" href="{{ route('admin.subscriptions.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.subscription.title_singular') }}
-            </a>
+            @endcan
+            @can('subscription_create')
+                <a class="btn btn-success" href="{{ route('admin.subscriptions.create') }}">
+                    {{ trans('global.add') }} {{ trans('cruds.subscription.title_singular') }}
+                </a>
+            @endcan
         </div>
     </div>
-@endcan
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.subscription.title_singular') }} {{ trans('global.list') }}
