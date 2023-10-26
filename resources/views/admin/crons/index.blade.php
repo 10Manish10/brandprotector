@@ -20,7 +20,7 @@
                         <th width="10"></th>
                         <th style="display:none;">ID</th>
                         <th>Name</th>
-                        <th>Command</th>
+                        <th>Command (comma separated client id)</th>
                         <th>Schedule</th>
                         <th>Created By</th>
                         <th>Actions</th>

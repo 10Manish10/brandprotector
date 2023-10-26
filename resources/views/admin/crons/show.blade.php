@@ -28,7 +28,7 @@
                     </tr>
                     <tr>
                         <th>
-                            Command
+                            Command (comma separated client id)
                         </th>
                         <td>
                             {{ $cron->command }}

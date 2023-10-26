@@ -11,6 +11,7 @@ use App\Models\Datasets;
 use App\Models\Subscription;
 use DB;
 use Gate;
+use Mail;
 use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\EbayController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\WalmartController;
 use App\Http\Controllers\DatasetsScrap;
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailables\Attachment;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReportsController extends Controller
@@ -165,6 +167,47 @@ class ReportsController extends Controller
             }
         }
         return response()->json($data);
+    }
+
+    public function emailReport($clientId, $range = 1) {
+        $email = Client::where('id', $clientId)->pluck('email')->toArray();
+        $file = $this->exportReport($clientId, $range);
+        $body = "Hi,<br>Your requested export data is attached below.<br>Regards";
+        Mail::html($body, function($msg) use ($body, $file, $email) {
+            $msg->to($email)
+            ->cc(["rishabhj928@gmail.com"])
+            ->subject("Report Export")
+            ->attach(Attachment::fromPath($file));
+        });
+        echo "Mail Sent";
+    }
+
+    public function exportReport($clientId, $range = 1) {
+        $from = date('Y-m-d H:i:s', strtotime('-' . $range . ' days'));
+        $where = [
+            ['client_id', '=', $clientId],
+            ['created_at', '>=', $from]
+        ];
+        $data = TKO_Ecommerce::where($where)->get()->toArray();
+
+        if(sizeof($data) > 0) {
+            $path = base_path("resources/reports/".$clientId."/");
+            clearstatcache();
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            $path .= 'client_'.$clientId.'_report_'.$from.'.csv';
+            $handle = fopen($path, 'w') or die("cant open file");
+            fputcsv($handle, array_keys($data[0]));
+            foreach($data as $d) {
+                fputcsv($handle, $d);
+            }
+            fclose($handle);
+            return $path;
+        }
+        else {
+            return "";
+        }
     }
 
 }

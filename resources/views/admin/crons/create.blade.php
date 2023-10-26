@@ -17,7 +17,7 @@
                 @endif
             </div>
             <div class="form-group">
-				<label class="required" for="command">Command</label>
+				<label class="required" for="command">Command (comma separated client id)</label>
 				<input class="form-control {{ $errors->has('command') ? 'is-invalid' : '' }}" type="text" name="command" id="command" value="{{ old('command', '') }}" required>
 				@if($errors->has('command'))
 					<span class="text-danger">{{ $errors->first('command') }}</span>

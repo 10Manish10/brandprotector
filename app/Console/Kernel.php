@@ -4,6 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
+
+use App\Models\Cron;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,6 +16,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $crons = Cron::all();
+        foreach ($crons as $cron) {
+            $schedule->command($cron->command)->name($cron->name)->cron($cron->schedule);
+        }
     }
 
     /**
