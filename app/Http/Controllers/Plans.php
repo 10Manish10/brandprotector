@@ -47,7 +47,7 @@ class Plans extends Controller
         // dd([$data, $insert]);
         try {
             Mail::html($data['body'], function($message) use ($data) {
-                $message->from($data['from'], '');
+                $message->from($data['from'], 'Brand Protection Enforcement');
                 $message->replyTo($data['from']);
                 $message->to($data['to']);
                 $message->subject($data['subject']);

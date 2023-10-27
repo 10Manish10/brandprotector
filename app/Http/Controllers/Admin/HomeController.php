@@ -56,6 +56,23 @@ class HomeController
             $settings2['fields'] = [];
         }
 
-        return view('home', compact('chart1', 'settings2'));
+        $settings3 = [
+            'chart_title'           => 'Reports',
+            'chart_type'            => 'line',
+            'report_type'           => 'group_by_string',
+            'model'                 => 'App\Models\TKO_Ecommerce',
+            'group_by_field'        => 'channel_name',
+            'aggregate_function'    => 'count',
+            'filter_field'          => 'created_at',
+            'filter_period'         => 'year',
+            'column_class'          => 'col-md-6',
+            'entries_number'        => '5',
+            'translation_key'       => 'TKO_Ecommerce',
+        ];
+
+        $chart3 = new LaravelChart($settings3);
+        // dd($chart3);
+
+        return view('home', compact('chart1', 'settings2', 'chart3'));
     }
 }

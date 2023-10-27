@@ -88,7 +88,13 @@
                                 </tbody>
                             </table>
                         </div>
-
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="{{ $chart3->options['column_class'] }}">
+                            <h3>{!! $chart3->options['chart_title'] !!}</h3>
+                            {!! $chart3->renderHtml() !!}
+                        </div>
                     </div>
                 </div>
             </div>
