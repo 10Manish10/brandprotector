@@ -80,6 +80,9 @@
 <div class="card">
     <div class="card-body">
         <div class="container-fluid">
+            @if ($error != "")
+                <p class="danger">{{$error}}</p>
+            @endif
             <br><br>
             <h1 class="text-center">Our Plans</h1>
             <br>
@@ -87,28 +90,34 @@
             <br><br>
             <div class="row justify-center">
                 @foreach ($data as $row)
-                <div class="col-4 wraps1">
-                    <div class="wraps2">
-                        <div class="wraps3">
-                            <div class="headrr">    
-                                <p class="titll">{{ $row->name }}</p>
-                                <?php $money = round($row->plan_amount, 0); ?>
-                                @if ($money > 0)
-                                    <p class="pric">${{ $money }} /Mo</p>
-                                @else
-                                    <p class="pric">INQUIRE WITHIN</p>
-                                @endif
+                    <div class="col-4 wraps1">
+                        <div class="wraps2">
+                            <div class="wraps3">
+                                <form method="POST" action="{{ route("plans.createPayment") }}">
+                                    @csrf
+                                    <div class="headrr">
+                                        <p class="titll">{{ $row->name }}</p>
+                                        <?php $money = round($row->plan_amount, 0); ?>
+                                        @if ($money > 0)
+                                            <p class="pric">${{ $money }} /Mo</p>
+                                            <input type="hidden" name="plan_id" value="{{ $row->id }}">
+                                            <input type="hidden" name="amount" value="{{ $money }}">
+                                            <input type="hidden" name="txn_desc" value="{{ $row->name }}">
+                                        @else
+                                            <p class="pric">INQUIRE WITHIN</p>
+                                        @endif
+                                    </div>
+                                    <?php $feats = explode(",", $row->features); ?>
+                                    <ul class="cbcb">
+                                        @foreach ($feats as $f)
+                                            <li>{{ $f }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <button type="submit" class="button sub_btn">Proceed with this Plan</button>
+                                </form>
                             </div>
-                            <?php $feats = explode(",", $row->features); ?>
-                            <ul class="cbcb">
-                                @foreach ($feats as $f)
-                                    <li>{{ $f }}</li>
-                                @endforeach
-                            </ul>
-                            <button type="button" name="plan[{{$row->id}}]" id="plan[{{$row->id}}]" class="button sub_btn">Proceed with this Plan</button>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
             <br><br>

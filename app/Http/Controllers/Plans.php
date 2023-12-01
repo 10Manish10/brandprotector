@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscription;
 use App\Models\EmailLogs;
+use App\Models\Client;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Mail;
 
@@ -23,7 +25,8 @@ class Plans extends Controller
 
     public function test() {
         $data = Subscription::all();
-        return view('plans', compact('data'));
+        $error = "";
+        return view('plans', compact('data'), compact('error'));
     }
 
     public function sendInfringmentMail(Request $request) {
@@ -58,5 +61,25 @@ class Plans extends Controller
         }
         EmailLogs::create($insert);
         return redirect()->route('admin.email-templates.show', ['email_template' => $data['email_template_id']]);
+    }
+
+    public function createPayment(Request $req) {
+        $user = Auth::user();
+        $email = $user->email;
+        $name = $user->name;
+        $client = Client::where("email", $email)->get()->toArray();
+        if ($client) {
+            $amt = $req->input('amount') * 100;
+            $desc = "TKO_".$name."_".$email."_Plan_".$req->input('txn_desc')."_".date('d/m/Y');
+            return $req->user()->checkoutCharge($amt, $desc);
+            // return view('vendor.cashier.checkout', [
+            //     'amount' => $amt,
+            //     'description' => $desc,
+            // ]);
+        } else {
+            $data = Subscription::all();
+            $error = "Unauthorized client, please make sure client exists!";
+            return view('plans', compact('data'), compact('error'));
+        }
     }
 }
