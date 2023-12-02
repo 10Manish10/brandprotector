@@ -10,6 +10,11 @@ class ApprovalMiddleware
 {
     public function handle($request, Closure $next)
     {
+        $method = $request->method();
+        $route = $request->route()->getName();
+        if ($method == "POST" && $route == "plans.paymentWebhook") {
+            return $next($request);
+        }
         if (auth()->check()) {
             if (! auth()->user()->approved) {
                 auth()->logout();

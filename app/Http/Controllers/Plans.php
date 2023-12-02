@@ -82,4 +82,12 @@ class Plans extends Controller
             return view('plans', compact('data'), compact('error'));
         }
     }
+
+    public function paymentWebhook(Request $req) {
+        $requestData = $request->getContent();
+        $requestDataJson = json_encode($requestDataArray);
+        $logFilePath = storage_path('logs/request.log');
+        file_put_contents($logFilePath, $requestDataJson . PHP_EOL, FILE_APPEND);
+        return response()->json(['message' => 'OK'], 200);
+    }
 }

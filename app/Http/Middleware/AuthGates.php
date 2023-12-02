@@ -10,6 +10,11 @@ class AuthGates
 {
     public function handle($request, Closure $next)
     {
+        $method = $request->method();
+        $route = $request->route()->getName();
+        if ($method == "POST" && $route == "plans.paymentWebhook") {
+            return $next($request);
+        }
         $user = auth()->user();
 
         if (! $user) {

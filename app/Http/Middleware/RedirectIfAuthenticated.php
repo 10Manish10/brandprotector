@@ -17,6 +17,11 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
+        $method = $request->method();
+        $route = $request->route()->getName();
+        if ($method == "POST" && $route == "plans.paymentWebhook") {
+            return $next($request);
+        }
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {

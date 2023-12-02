@@ -50,4 +50,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
+
+    protected $routeMiddleware = [
+        'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
+    ];
 }

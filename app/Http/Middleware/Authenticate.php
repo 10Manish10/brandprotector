@@ -12,6 +12,11 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
+        $method = $request->method();
+        $route = $request->route()->getName();
+        if ($method == "POST" && $route == "plans.paymentWebhook") {
+            return null;
+        }
         return $request->expectsJson() ? null : route('login');
     }
 }
