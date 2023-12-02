@@ -111,7 +111,7 @@ Route::get('/reports/email/{clientId}/{range?}', 'ReportsController@emailReport'
 
 // Subscription Plans
 Route::get('/plans', 'Plans@test')->name('plans');
-// Route::get('/', 'Plans@test')->name('home');
+Route::get('/plans', 'Plans@test')->name('home');
 Route::post('/plans/create', 'Plans@createPayment')->name('plans.createPayment');
 Route::middleware('api.key')->post('/plans/webhook/paymentStatus', 'Plans@paymentWebhook')->name('plans.paymentWebhook');
 
