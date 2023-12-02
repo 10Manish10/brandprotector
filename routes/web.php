@@ -110,7 +110,7 @@ Route::get('/reports/export/{clientId}/{range?}', 'ReportsController@exportRepor
 Route::get('/reports/email/{clientId}/{range?}', 'ReportsController@emailReport')->name('reports.emailReport');
 
 // Subscription Plans
-Route::get('/plans', 'Plans@test')->name('plans')->name('home');
+Route::get('/plans', 'Plans@test')->name('home')->name('plans');
 Route::post('/plans/create', 'Plans@createPayment')->name('plans.createPayment');
 Route::middleware('api.key')->post('/plans/webhook/paymentStatus', 'Plans@paymentWebhook')->name('plans.paymentWebhook');
 
