@@ -83,6 +83,11 @@
             @if ($error != "")
                 <p class="danger">{{$error}}</p>
             @endif
+            @if ($paymentStatus == "success")
+                <p style="color:green;">Your payment is Successful. You can now avail the plan benefits.</p>
+            @elseif ($paymentStatus == "cancelled")
+                <p style="color:red;">Your payment got cancelled, please try again.</p>
+            @endif
             <br><br>
             <h1 class="text-center">Our Plans</h1>
             <br>

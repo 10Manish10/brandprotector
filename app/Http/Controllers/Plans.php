@@ -23,10 +23,16 @@ class Plans extends Controller
         echo "<pre>";
     }
 
-    public function test() {
+    public function test(Request $request) {
+        $paymentStatus = "";
+        // cancelled
+        // success
+        if ($request->has('checkout')) {
+            $paymentStatus = $request->query('checkout');
+        }
         $data = Subscription::all();
         $error = "";
-        return view('plans', compact('data'), compact('error'));
+        return view('plans', compact('data'), compact('error'), compact('paymentStatus'));
     }
 
     public function sendInfringmentMail(Request $request) {
