@@ -80,12 +80,12 @@
 <div class="card">
     <div class="card-body">
         <div class="container-fluid">
-            @if ($error != "")
+            @if ($metaData['error'] != "")
                 <p class="danger">{{$error}}</p>
             @endif
-            @if ($paymentStatus == "success")
+            @if ($metaData['paymentStatus'] == "success")
                 <p style="color:green;">Your payment is Successful. You can now avail the plan benefits.</p>
-            @elseif ($paymentStatus == "cancelled")
+            @elseif ($metaData['paymentStatus'] == "cancelled")
                 <p style="color:red;">Your payment got cancelled, please try again.</p>
             @endif
             <br><br>

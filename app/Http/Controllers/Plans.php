@@ -25,14 +25,13 @@ class Plans extends Controller
 
     public function test(Request $request) {
         $paymentStatus = "";
-        // cancelled
-        // success
         if ($request->has('checkout')) {
             $paymentStatus = $request->query('checkout');
         }
         $data = Subscription::all();
         $error = "";
-        return view('plans', compact('data'), compact('error'), compact('paymentStatus'));
+        $metaData = ["paymentStatus" => $paymentStatus, "error" => $error];
+        return view('plans', compact('data'), compact('metaData'));
     }
 
     public function sendInfringmentMail(Request $request) {
