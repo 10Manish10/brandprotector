@@ -3,7 +3,7 @@
 <div style="margin-bottom: 10px;" class="row">
     <div class="col-lg-12">
             @can('subscription_access')
-            <a class="btn btn-warning" href="{{ route('plans') }}">
+            <a class="btn btn-warning" href="{{ route('home') }}">
                 View Plans
             </a>
             @endcan
