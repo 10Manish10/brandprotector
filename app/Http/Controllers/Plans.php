@@ -8,13 +8,13 @@ use App\Models\Client;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+// use Illuminate\Support\Facades\Log;
 use Mail;
 
 class Plans extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     public function pre($data) {
@@ -88,11 +88,17 @@ class Plans extends Controller
         }
     }
 
-    public function paymentWebhook(Request $req) {
-        $requestData = $request->getContent();
-        $requestDataJson = json_encode($requestDataArray);
-        $logFilePath = storage_path('logs/request.log');
-        file_put_contents($logFilePath, $requestDataJson . PHP_EOL, FILE_APPEND);
-        return response()->json(['message' => 'OK'], 200);
+    public function paymentWebhook(Request $request) {
+        try {
+            $requestData = $request->getContent();
+            $ws = config('cashier.webhook.secret');
+            $requestDataJson = json_encode($requestData);
+            // Log::channel('requests')->info($requestDataJson);
+            $logFilePath = storage_path('logs/stripeWebhookRequests.log');
+            file_put_contents($logFilePath, $requestDataJson . PHP_EOL, FILE_APPEND);
+            return response()->json(['message' => 'OK'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to log request'.$e->getMessage()], 500);
+        }
     }
 }
