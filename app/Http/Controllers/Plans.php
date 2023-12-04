@@ -77,6 +77,7 @@ class Plans extends Controller
         if ($client) {
             $amt = $req->input('amount') * 100;
             $desc = "TKO_".$name."_".$email."_Plan_".$req->input('txn_desc')."_".date('d/m/Y');
+            Client::where("email", $email)->update(["subplan" => $req->plan_id]);
             return $req->user()->checkoutCharge($amt, $desc);
             // return view('vendor.cashier.checkout', [
             //     'amount' => $amt,
@@ -91,10 +92,10 @@ class Plans extends Controller
 
     public function paymentWebhook(Request $request) {
         try {
-            $requestData = $request->getContent();
-            $ws = config('cashier.webhook.secret');
-            $requestDataJson = json_encode($requestData);
+            $requestDataJson = $request->json()->all();
             $customerId = $requestDataJson['data']['object']['customer'] ?? "";
+            return response()->json(['cid' => $requestData['data']], 200);
+
             $user = User::where('stripe_id', $customerId)->first();
             if ($user) {
                 $paymentStatus = $requestDataJson['data']['object']['status'] ?? "";
