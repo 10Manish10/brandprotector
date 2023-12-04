@@ -26,6 +26,7 @@ class Client extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+        'payment_date',
     ];
 
     protected $fillable = [
