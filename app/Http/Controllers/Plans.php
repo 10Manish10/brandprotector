@@ -31,7 +31,7 @@ class Plans extends Controller
         $data = Subscription::all();
         $error = "";
         $metaData = ["paymentStatus" => $paymentStatus, "error" => $error];
-        return view('home', compact('data'), compact('metaData'));
+        return view('plans', compact('data'), compact('metaData'));
     }
 
     public function sendInfringmentMail(Request $request) {
@@ -84,7 +84,7 @@ class Plans extends Controller
         } else {
             $data = Subscription::all();
             $error = "Unauthorized client, please make sure client exists!";
-            return view('home', compact('data'), compact('error'));
+            return view('plans', compact('data'), compact('error'));
         }
     }
 

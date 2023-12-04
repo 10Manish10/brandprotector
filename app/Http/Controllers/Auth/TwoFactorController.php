@@ -28,7 +28,7 @@ class TwoFactorController extends Controller
         if ($request->input('two_factor_code') == $user->two_factor_code) {
             $user->resetTwoFactorCode();
 
-            $route = (Route::has('frontend.home') && ! $user->is_admin) ? 'frontend.home' : 'admin.home';
+            $route = (Route::has('frontend.home') && ! $user->is_admin) ? 'frontend.home' : 'admin.homee';
 
             return redirect()->route($route);
         }
