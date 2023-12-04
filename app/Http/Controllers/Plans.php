@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Subscription;
 use App\Models\EmailLogs;
 use App\Models\Client;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,6 +94,18 @@ class Plans extends Controller
             $requestData = $request->getContent();
             $ws = config('cashier.webhook.secret');
             $requestDataJson = json_encode($requestData);
+            $customerId = $requestDataJson['data']['object']['customer'] ?? "";
+            $user = User::where('stripe_id', $customerId)->first();
+            if ($user) {
+                $paymentStatus = $requestDataJson['data']['object']['status'] ?? "";
+                if ($paymentStatus == 'succeeded') {
+                    Client::where('email', $user->email)->update([
+                        'payment_date' => now(),
+                        'payment' => true,
+                    ]);
+                }
+            }
+
             // Log::channel('requests')->info($requestDataJson);
             $logFilePath = storage_path('logs/stripeWebhookRequests.log');
             file_put_contents($logFilePath, $requestDataJson . PHP_EOL, FILE_APPEND);
