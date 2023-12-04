@@ -94,7 +94,6 @@ class Plans extends Controller
         try {
             $requestDataJson = $request->json()->all();
             $customerId = $requestDataJson['data']['object']['customer'] ?? "";
-            return response()->json(['cid' => $requestData['data']], 200);
 
             $user = User::where('stripe_id', $customerId)->first();
             if ($user) {
