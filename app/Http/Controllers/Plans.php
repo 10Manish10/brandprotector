@@ -100,7 +100,7 @@ class Plans extends Controller
                 $paymentStatus = $requestDataJson['data']['object']['status'] ?? "";
                 if ($paymentStatus == 'succeeded') {
                     Client::where('email', $user->email)->update([
-                        'payment_date' => now(),
+                        'payment_date' => date('Y-m-d H:i:s'),
                         'payment' => true,
                     ]);
                 }
