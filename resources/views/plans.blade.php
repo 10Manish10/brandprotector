@@ -81,7 +81,7 @@
     <div class="card-body">
         <div class="container-fluid">
             @if ($metaData['error'] != "")
-                <p class="danger">{{$error}}</p>
+                <p class="danger">{{$metaData['error']}}</p>
             @endif
             @if ($metaData['paymentStatus'] == "success")
                 <p style="color:green;">Your payment is Successful. You can now avail the plan benefits.</p>
