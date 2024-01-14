@@ -52,6 +52,10 @@ class DatasetsScrap extends Controller
         curl_close($curl);
         $dumpResponse = json_decode($response);
         
+        if (isset($dumpResponse->error)) {
+            return false;
+        }
+        
         if ($dumpResponse->data->status != $existingStatus) {
             Datasets::where('run_id', $runId)->update([
                 'run_status' => $dumpResponse->data->status,
