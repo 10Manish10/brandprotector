@@ -86,6 +86,7 @@ class Plans extends Controller
         } else {
             $data = Subscription::all();
             $error = "Unauthorized client, please make sure client exists!";
+            $metaData = ["paymentStatus" => "cancelled", "error" => $error];
             return view('plans', compact('data'), compact('error'));
         }
     }
