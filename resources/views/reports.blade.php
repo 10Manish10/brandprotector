@@ -214,7 +214,8 @@ $(function () {
                     alert(`Selected channel not found or is inactive, please contact administrator. Thanks!`)
                 }
                 if (x.status == "channel_error") {
-                    alert(x?.msg?.error?.message || "Something went wrong")
+                    let er = x?.msg?.error?.message || "Something went wrong";
+                    alert("Error: " + er)
                 }
                 // if (x.status == "pending") {
                 // }
