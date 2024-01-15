@@ -213,6 +213,9 @@ $(function () {
                 if (x.status == "invalid_channel") {
                     alert(`Selected channel not found or is inactive, please contact administrator. Thanks!`)
                 }
+                if (x.status == "channel_error") {
+                    alert(x?.msg || "Something went wrong")
+                }
                 // if (x.status == "pending") {
                 // }
 			},
