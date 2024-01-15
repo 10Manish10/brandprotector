@@ -166,8 +166,9 @@ class ReportsController extends Controller
                 if (isset($result->error)) {
                     $data["status"] = "channel_error";
                     $data["msg"] = isset($result->message) ? $result->message : "Something went wrong";
+                } else {
+                    $data["status"] = "success";
                 }
-                $data["status"] = "success";
             }
         }
         return response()->json($data);
