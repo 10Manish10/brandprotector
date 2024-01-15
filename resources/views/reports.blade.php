@@ -215,6 +215,7 @@ $(function () {
                 }
                 if (x.status == "channel_error") {
                     alert(x?.msg || "Something went wrong")
+                    console.log(X)
                 }
                 // if (x.status == "pending") {
                 // }

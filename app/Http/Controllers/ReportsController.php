@@ -165,7 +165,7 @@ class ReportsController extends Controller
                 $result = $controller->createDataset($channelId, $clientId, $keyword);
                 if (isset($result->error)) {
                     $data["status"] = "channel_error";
-                    $data["msg"] = isset($result->message) ? $result->message : "Something went wrong";
+                    $data["msg"] = $result;
                 } else {
                     $data["status"] = "success";
                 }
