@@ -6,6 +6,14 @@ use Illuminate\Console\Command;
 use \App\Models\Datasets;
 use \App\Models\Channel;
 
+use \App\Http\Controllers\AliExpressController;
+use \App\Http\Controllers\AmazonController;
+use \App\Http\Controllers\EbayController;
+use \App\Http\Controllers\EtsyController;
+use \App\Http\Controllers\GoogleController;
+use \App\Http\Controllers\WalmartController;
+use \App\Http\Controllers\DatasetsScrap;
+
 class DataFetch extends Command
 {
     /**
@@ -33,17 +41,20 @@ class DataFetch extends Command
         $results = Datasets::select('channel_id', 'client_id', 'keyword', 'dataset')
         ->where('run_status', '=', 'SUCCEEDED')
         ->where('created_at', '>=', $twentyFourHoursAgo)
-        ->get();
+        ->get()->toArray();
+        print_r($results);
 
         $channels = Channel::pluck('channel_name', 'id')->toArray();
-        // print_r(isset($channels[1]));
+        print_r($channels);
 
         foreach ($results as $result) {
-            $channelId = $result->channel_id;
-            $clientId = $result->client_id;
-            $keyword = $result->keyword;
-            $dataset = $result->dataset;
+            $channelId = $result['channel_id'];
+            $clientId = $result['client_id'];
+            $keyword = $result['keyword'];
+            $dataset = $result['dataset'];
             $cname = $channels[$channelId];
+            $cname = strtolower($cname);
+            $cname = str_replace(' ', '_', $cname);
             $controller = "";
             switch ($cname) {
                 case 'aliexpress':
@@ -67,6 +78,7 @@ class DataFetch extends Command
                     break;
             }
             if ($controller != "") {
+                print_r($controller);
                 $controller->saveData($channelId, $clientId, $keyword, $dataset);
             }
         }

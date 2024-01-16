@@ -158,6 +158,8 @@ class EbayController extends Controller
      * This will save the data response in DB
      */
     public function saveData($channelId, $clientId, $keyword, $datasetId = "") {
+        // print("ok");
+        // die;
         $sessionKey = "channel_".$channelId."__client_".$clientId;
         $authValue = Session::get($sessionKey);
         if (!(isset($authValue) && $authValue == "AUTH_OK")) {
@@ -213,35 +215,36 @@ class EbayController extends Controller
             $whitelistValue = explode(",", $whitelistValue);
             $whitelistValue = array_map('trim', $whitelistValue);
         }
+        // $this->pre($dumpResponse);
+        // die;
 
         // TODO: NEED API_TOKEN for PRO PLAN FOR EBAY CHANNEL FROM APIFY
         // return $this->pre($dumpResponse);
-        // foreach ($dumpResponse as $dump) {
-        //     $severity = "medium";
-        //     foreach ($whitelistValue as $w) {
-        //         if (stripos($dump->title, $w) != false) {
-        //             $severity = "low";
-        //             break;
-        //         }
-        //     }
-        //     $data = array(
-        //         "client_id" => $clientId,
-        //         'channel_id'=> $channelId,
-        //         'channel_name' => $this->channelName,
-        //         'dataset' => $datasetId,
-        //         'keyword' => $keyword,
-        //         'keyword' => $keyword,
-        //         "url" => $dump->url,
-        //         "title" => $dump->title,
-        //         "price" => isset($dump->price) ? $dump->price->currency." ".$dump->price->value : "",
-        //         "image" => $dump->thumbnailImage,
-        //         "seller" => isset($dump->seller) ? $dump->seller->name : "",
-        //         "brand" => $dump->brand,
-        //     );
-        //     // $this->pre($data);
-        //     // continue;
-        //     TKO_Ecommerce::create($data);
-        // }
+        foreach ($dumpResponse as $dump) {
+            $severity = "medium";
+            foreach ($whitelistValue as $w) {
+                if (stripos($dump->title, $w) != false) {
+                    $severity = "low";
+                    break;
+                }
+            }
+            $data = array(
+                "client_id" => $clientId,
+                'channel_id'=> $channelId,
+                'channel_name' => $this->channelName,
+                'dataset' => $datasetId,
+                'keyword' => $keyword,
+                "url" => $dump->url,
+                "title" => $dump->title,
+                "price" => $dump->price,
+                "image" => $dump->image,
+                "seller" => $dump->seller,
+                "brand" => $dump->brand,
+            );
+            // $this->pre($data);
+            // continue;
+            TKO_Ecommerce::create($data);
+        }
         return "Success";
     }
 
