@@ -221,10 +221,12 @@ class GoogleController extends Controller
         if (isset($dumpResponse->organicResults) && !empty($dumpResponse->organicResults)) {
             foreach ($dumpResponse->organicResults as $dump) {
                 $severity = "medium";
-                foreach ($whitelistValue as $w) {
-                    if (stripos($dump->title, $w) != false) {
-                        $severity = "low";
-                        break;
+                if ($whitelistValue) {
+                    foreach ($whitelistValue as $w) {
+                        if (stripos($dump->title, $w) != false) {
+                            $severity = "low";
+                            break;
+                        }
                     }
                 }
                 $data = array(

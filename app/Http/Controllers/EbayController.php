@@ -222,10 +222,12 @@ class EbayController extends Controller
         // return $this->pre($dumpResponse);
         foreach ($dumpResponse as $dump) {
             $severity = "medium";
-            foreach ($whitelistValue as $w) {
-                if (stripos($dump->title, $w) != false) {
-                    $severity = "low";
-                    break;
+            if ($whitelistValue) {
+                foreach ($whitelistValue as $w) {
+                    if (stripos($dump->title, $w) != false) {
+                        $severity = "low";
+                        break;
+                    }
                 }
             }
             $data = array(

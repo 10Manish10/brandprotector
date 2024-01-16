@@ -218,10 +218,12 @@ class EtsyController extends Controller
 
         foreach ($dumpResponse as $dump) {
             $severity = "medium";
-            foreach ($whitelistValue as $w) {
-                if (stripos($dump->name, $w) != false) {
-                    $severity = "low";
-                    break;
+            if ($whitelistValue) {
+                foreach ($whitelistValue as $w) {
+                    if (stripos($dump->name, $w) != false) {
+                        $severity = "low";
+                        break;
+                    }
                 }
             }
             $data = array(
