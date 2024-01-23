@@ -54,11 +54,12 @@ class Plans extends Controller
             'status' => 'PENDING'
         ];
         // dd([$data, $insert]);
+        $to = array_map('trim', explode(',', $data['to']));
         try {
             Mail::html($data['body'], function($message) use ($data) {
                 $message->from($data['from'], 'Brand Protection Enforcement');
                 $message->replyTo($data['from']);
-                $message->to($data['to']);
+                $message->to($to);
                 $message->subject($data['subject']);
             });
             $insert['status'] = "SUCCESS";
