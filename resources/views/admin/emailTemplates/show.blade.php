@@ -78,7 +78,7 @@
                         if (preg_match('/{{(.*?)}}/', $emailTemplate->to_email)) {
                             $to = "";
                         } else {
-                            $to = $emailTemplate->from_email;
+                            $to = $emailTemplate->to_email;
                         }
                         $body = preg_replace('/\{\{([^}]+)\}\}/', '<input type="text" class="bodyinput" name="$1" placeholder="$1" required="required" />', $emailTemplate->email_body);
                     ?>
