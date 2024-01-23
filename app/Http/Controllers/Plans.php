@@ -54,8 +54,8 @@ class Plans extends Controller
             'status' => 'PENDING'
         ];
         // dd([$data, $insert]);
-        $to = array_map('trim', explode(',', $data['to']));
         try {
+            $to = array_map('trim', explode(',', $data['to']));
             Mail::html($data['body'], function($message) use ($data) {
                 $message->from($data['from'], 'Brand Protection Enforcement');
                 $message->replyTo($data['from']);
