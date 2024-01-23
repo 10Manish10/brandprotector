@@ -56,8 +56,7 @@ class Plans extends Controller
         // dd([$data, $insert]);
         try {
             $toEmail = array_map('trim', explode(',', $data['to']));
-            dd($toEmail);
-            Mail::html($data['body'], function($message) use ($data) {
+            Mail::html($data['body'], function($message) use ($data, $toEmail) {
                 $message->from($data['from'], 'Brand Protection Enforcement');
                 $message->replyTo($data['from']);
                 $message->to($toEmail);
