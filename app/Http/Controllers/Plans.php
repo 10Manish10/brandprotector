@@ -55,11 +55,11 @@ class Plans extends Controller
         ];
         // dd([$data, $insert]);
         try {
-            $to = array_map('trim', explode(',', $data['to']));
+            $toEmail = array_map('trim', explode(',', $data['to']));
             Mail::html($data['body'], function($message) use ($data) {
                 $message->from($data['from'], 'Brand Protection Enforcement');
                 $message->replyTo($data['from']);
-                $message->to($to);
+                $message->to($toEmail);
                 $message->subject($data['subject']);
             });
             $insert['status'] = "SUCCESS";
